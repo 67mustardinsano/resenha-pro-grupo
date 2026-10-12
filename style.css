@@ -1,0 +1,393 @@
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --fundo: #25282d;
+    --painel: #30343a;
+    --painel-escuro: #1c1f23;
+    --borda: #454b54;
+    --texto: #e2e5e9;
+    --texto-fraco: #aeb5bf;
+    --azul: #365fa5;
+    --azul-claro: #5485d8;
+    --verde: #6fcf97;
+    --vermelho: #e57373;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background: var(--fundo);
+    color: var(--texto);
+}
+
+header {
+    padding: 24px;
+    text-align: center;
+    background: var(--painel-escuro);
+    border-bottom: 1px solid var(--borda);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 32px;
+    letter-spacing: 6px;
+}
+
+header p {
+    margin-bottom: 0;
+    color: var(--texto-fraco);
+}
+
+main {
+    width: min(950px, 92%);
+    margin: 38px auto;
+    padding: 30px;
+    background: var(--painel);
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px #00000020;
+}
+
+h2, h3 {
+    color: #f0f2f5;
+}
+
+h2 {
+    margin-top: 0;
+}
+
+p {
+    line-height: 1.6;
+}
+
+main > p {
+    color: var(--texto-fraco);
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+button {
+    padding: 11px 16px;
+    border: 1px solid var(--azul-claro);
+    border-radius: 7px;
+    background: var(--azul);
+    color: white;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+}
+
+button:hover {
+    background: #4775bf;
+    transform: translateY(-1px);
+}
+
+button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+}
+
+button.secundario {
+    background: #3a3e45;
+    border-color: #606873;
+}
+
+button.secundario:hover {
+    background: #4a5059;
+}
+
+button.perigo {
+    background: #783d43;
+    border-color: #a75a63;
+}
+
+.acoes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 18px 0;
+}
+
+.campo label,
+.rotulo {
+    color: var(--texto-fraco);
+    font-size: 14px;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 12px;
+    color: var(--texto);
+    background: var(--painel-escuro);
+    border: 1px solid var(--borda);
+    border-radius: 7px;
+    outline: none;
+}
+
+input:focus,
+select:focus {
+    border-color: var(--azul-claro);
+}
+
+select option {
+    background: var(--painel-escuro);
+    color: var(--texto);
+}
+
+.grade {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.secao {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid var(--borda);
+}
+
+.secao > p {
+    color: var(--texto-fraco);
+}
+
+.grade-atributos {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.atributo {
+    padding: 14px;
+    background: var(--painel-escuro);
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+}
+
+.atributo label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.atributo select {
+    text-align: center;
+}
+
+.lista-pericias {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.pericia {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    background: var(--painel-escuro);
+    border: 1px solid var(--borda);
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.pericia:has(input:checked) {
+    border-color: var(--azul-claro);
+    background: #293b55;
+}
+
+.pericia input {
+    width: 17px;
+    height: 17px;
+    accent-color: var(--azul-claro);
+}
+
+.contador {
+    color: var(--azul-claro);
+    font-weight: bold;
+}
+
+.aviso {
+    min-height: 22px;
+    margin-top: 12px;
+    color: var(--verde);
+    font-size: 14px;
+}
+
+.resumo {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin: 22px 0;
+}
+
+.estatistica {
+    padding: 16px 10px;
+    text-align: center;
+    background: var(--painel-escuro);
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+}
+
+.estatistica strong {
+    display: block;
+    margin-top: 8px;
+    font-size: 25px;
+    color: var(--azul-claro);
+}
+
+.estatistica span {
+    color: var(--texto-fraco);
+    font-size: 13px;
+}
+
+.ficha-bloco {
+    margin-top: 16px;
+    padding: 18px;
+    background: var(--painel-escuro);
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+}
+
+.ficha-bloco p {
+    margin: 8px 0;
+}
+
+.etiqueta {
+    display: inline-block;
+    margin: 4px 4px 4px 0;
+    padding: 6px 10px;
+    background: #39414d;
+    border: 1px solid #505b6b;
+    border-radius: 20px;
+    font-size: 13px;
+}
+
+.vazio {
+    color: var(--texto-fraco);
+    font-style: italic;
+}
+
+footer {
+    padding: 10px 20px 25px;
+    text-align: center;
+    color: #858d98;
+    font-size: 12px;
+}
+
+@media (max-width: 600px) {
+    main {
+        width: 94%;
+        margin: 20px auto;
+        padding: 18px;
+    }
+
+    .grade,
+    .lista-pericias {
+        grid-template-columns: 1fr;
+    }
+
+    .grade-atributos {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .resumo {
+        grid-template-columns: 1fr;
+    }
+
+    .acoes button {
+        flex: 1 1 100%;
+    }
+}
+
+
+/* Abas da ficha */
+
+.abas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 22px 0;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--borda);
+}
+
+.abas button {
+    background: var(--painel-escuro);
+    border-color: var(--borda);
+}
+
+.abas button.ativa {
+    background: var(--azul);
+    border-color: var(--azul-claro);
+}
+
+.aba-conteudo {
+    min-height: 180px;
+}
+
+.item-linha,
+.poder-linha {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin: 10px 0;
+    padding: 14px;
+    background: var(--painel-escuro);
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+}
+
+.item-linha p,
+.poder-linha p {
+    margin: 5px 0 0;
+    color: var(--texto-fraco);
+    font-size: 14px;
+}
+
+.elemento-etiqueta {
+    display: inline-block;
+    margin: 5px 0;
+    padding: 5px 9px;
+    border-radius: 6px;
+    background: #39414d;
+    color: #c6d8ff;
+    font-size: 13px;
+}
+
+.barra-progresso {
+    height: 8px;
+    margin: 10px 0;
+    overflow: hidden;
+    background: var(--painel-escuro);
+    border-radius: 10px;
+}
+
+.barra-progresso div {
+    height: 100%;
+    background: var(--azul-claro);
+}
+
+@media (max-width: 600px) {
+    .item-linha,
+    .poder-linha {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
