@@ -380,6 +380,15 @@ const catalogoItens = {
     "Essência Elemental": {
         descricao: "Permite melhorar um poder além do limite do nível",
         essencia: true
+    },
+    "Orbe d'O Primeiro": {
+        descricao: "Consumível: concede +1 ponto de Determinação.",
+        determinacao: 1,
+        consumivel: true
+    },
+    "Espírito d'O Primeiro": {
+        descricao: "Relíquia rara: permite ao personagem obter um elemento adicional, além do elemento inicial.",
+        elementoAdicional: true
     }
 };
 
@@ -2212,6 +2221,16 @@ function mostrarRegras() {
         </section>
 
         <section class="secao">
+            <h3>Classes e funções</h3>
+            <p><strong>COMBATENTE:</strong> ataca e protege seus amigos com força BRUTA. É a linha de frente e deve aguentar pressão.</p>
+            <p><strong>CONJURADOR:</strong> ataca usando MAGIAS. É a classe que mais recebe pontos de Determinação para evoluir magia.</p>
+            <p><strong>TRAPACEIRO:</strong> utiliza as fraquezas e a desconcentração do inimigo contra ele mesmo.</p>
+            <p><strong>SUPORTE:</strong> atua na linha de trás; ajuda com BUFFs, recuperação de PV e proteção dos aliados. Não é focado em causar dano direto.</p>
+            <p><strong>INVESTIGADOR:</strong> atua na linha de trás e fornece informações úteis. Analise BEM os inimigos ao redor e identifique padrões, fraquezas e riscos.</p>
+            <p><strong>AGENTE DO CAOS:</strong> faz de tudo um pouco e aproveita brechas para concretizar o impossível. É versátil, mas seus efeitos extraordinários devem ter limites definidos pelo mestre.</p>
+        </section>
+
+        <section class="secao">
             <h3>Perícias</h3>
             <p>Uma perícia treinada concede +2 nos testes relacionados.</p>
             <p>Ao criar um personagem, escolha exatamente 3 perícias.</p>
@@ -2220,11 +2239,8 @@ function mostrarRegras() {
         <section class="secao">
             <h3>Experiência e níveis</h3>
             <p>Os personagens começam no nível 1 e podem chegar até o nível 20.</p>
-            <p>Nível 1 → 2: 20.000 XP.</p>
-            <p>Nível 2 → 3: 30.000 XP.</p>
-            <p>Nível 3 → 4: 40.000 XP.</p>
-            <p>O custo aumenta em 10.000 XP a cada nível.</p>
-            <p>O XP acumulado é consumido ao subir de nível; o excedente permanece para o próximo avanço.</p>
+            <p>Nível 1 → 2: 20.000 XP; nível 2 → 3: 30.000 XP; nível 3 → 4: 40.000 XP.</p>
+            <p>O custo aumenta em 10.000 XP a cada nível. O XP gasto é consumido e o excedente permanece para o próximo avanço.</p>
             <p>Monstros podem conceder de 0 a 200.000 XP.</p>
         </section>
 
@@ -2232,20 +2248,40 @@ function mostrarRegras() {
             <h3>PV e PE por nível</h3>
             <p><strong>Combatente:</strong> +5 PV e +1 PE por nível.</p>
             <p><strong>Conjurador:</strong> +3 PV e +3 PE por nível.</p>
-            <p><strong>Trapaceiro:</strong> +4 PV e +2 PE por nível.</p>
-            <p><strong>Suporte:</strong> +4 PV e +2 PE por nível.</p>
-            <p><strong>Investigador:</strong> +4 PV e +2 PE por nível.</p>
-            <p><strong>Agente do Caos:</strong> +4 PV e +2 PE por nível.</p>
+            <p><strong>Trapaceiro, Suporte, Investigador e Agente do Caos:</strong> +4 PV e +2 PE por nível.</p>
             <p>PV e PE máximos também consideram atributos e itens equipados.</p>
         </section>
 
         <section class="secao">
-            <h3>Combate e poderes</h3>
-            <p>O dano de um poder é Nd6, em que N representa o nível do poder.</p>
-            <p>O custo padrão de um poder é 2 PE por nível.</p>
-            <p>Uma vantagem elemental multiplica o dano por 1,5.</p>
-            <p>Uma resistência elemental multiplica o dano por 0,5.</p>
-            <p>As habilidades de classe são aplicadas pelo mestre conforme a situação de combate.</p>
+            <h3>Dano físico</h3>
+            <p>Todo ataque físico causa <strong>dano da arma + Força</strong>. A Força adiciona o valor do atributo: +1, +2 ou +3, conforme o personagem.</p>
+            <p>Bônus de habilidades e itens só são somados quando a habilidade ou o item disser explicitamente que concede dano adicional. Evite somar o mesmo bônus duas vezes.</p>
+        </section>
+
+        <section class="secao">
+            <h3>Magia e Determinação</h3>
+            <p>O dano mágico base é sempre calculado em dados de seis lados (d6), conforme o nível da magia. O nível máximo tradicional é 4.</p>
+            <p><strong>Nível 1:</strong> 1d6 de dano; <strong>Nível 2:</strong> 2d6; <strong>Nível 3:</strong> 3d6; <strong>Nível 4:</strong> 4d6 (máximo).</p>
+            <p>Para elevar uma magia ao próximo nível, é necessário gastar <strong>3 pontos de Determinação</strong> por melhoria. Os pontos são um recurso de progressão distinto dos PE gastos ao conjurar.</p>
+            <p>Ao subir de nível, o <strong>Conjurador recebe 3 pontos de Determinação</strong>; todas as outras classes recebem 1 ponto.</p>
+            <p>É permitido conhecer uma magia em nível inferior ao nível máximo já alcançado: por exemplo, ter uma magia de nível 1 mesmo podendo aprimorá-la até o nível 3.</p>
+            <p>Magias de nível 1 custam 2 PE; nível 2 custa 4 PE; nível 3 custa 6 PE; nível 4 custa 8 PE.</p>
+            <p><strong>Magias PRIMORDIAIS:</strong> custam 16 PE e não podem ser obtidas por meios tradicionais. Seu acesso depende de eventos, itens ou decisão especial do mestre.</p>
+        </section>
+
+        <section class="secao">
+            <h3>Elementos e relíquias</h3>
+            <p>O personagem começa com seu elemento inicial. Futuramente, pode obter um elemento adicional por meio do item raro <strong>Espírito d'O Primeiro</strong>; o mestre define como e quando essa relíquia é encontrada.</p>
+            <p>Uma vantagem elemental multiplica o dano por 1,5 e uma resistência elemental multiplica o dano por 0,5. Arredonde o resultado final para baixo, salvo regra específica da mesa.</p>
+            <p>As <strong>Orbes d'O Primeiro</strong> concedem 1 ponto de Determinação cada quando consumidas.</p>
+        </section>
+
+        <section class="secao">
+            <h3>Rebalanceamento e limites</h3>
+            <p>O Combatente é resistente, mas seus bônus de dano devem ser pontuais; evite acumular vários bônus de dano sem custo no mesmo turno.</p>
+            <p>O Conjurador evolui magias com Determinação, mas precisa administrar PE para conjurá-las. O nível 4 é o limite normal e magias Primordiais são exceções raras.</p>
+            <p>O Suporte deve priorizar cura, buffs e proteção; o Investigador deve criar vantagem tática com informações, sem resolver automaticamente todos os desafios. O Agente do Caos pode improvisar soluções incomuns, mas o mestre define custo, risco e alcance para não superar todas as outras classes.</p>
+            <p>Fraquezas e resistências elementais não se acumulam entre si: aplique apenas o modificador final pertinente ao alvo.</p>
         </section>
 
         <section class="secao">
@@ -2258,7 +2294,6 @@ function mostrarRegras() {
             <button id="voltar-inicio" class="secundario">Voltar ao menu</button>
         </div>
     `;
-
     ligarVoltar();
 }
 
