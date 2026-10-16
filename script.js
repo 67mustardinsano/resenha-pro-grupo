@@ -356,6 +356,22 @@ const catalogoItens = {
         descricao: "+2 Defesa",
         defesa: 2
     },
+    "Escudo do Guardião": {
+        descricao: "+2 Defesa; ocupa uma mão e é focado em proteção.",
+        defesa: 2
+    },
+    "Peitoral de Titã": {
+        descricao: "+3 Defesa; armadura pesada.",
+        defesa: 3
+    },
+    "Manto das Sombras": {
+        descricao: "+1 Defesa e +1 em testes de Furtividade.",
+        defesa: 1
+    },
+    "Anel de Aço": {
+        descricao: "+1 Defesa.",
+        defesa: 1
+    },
     "Núcleo Vital": {
         descricao: "+4 PV máximos",
         pv: 4
@@ -648,7 +664,11 @@ function calcular(ficha) {
     const bonusPE = contar("Cristal de Energia") * 3;
     const bonusAGI = contar("Botas Leves");
     const bonusDefesa =
-        contar("Armadura Reforçada") * 2 + bonusAGI;
+        contar("Armadura Reforçada") * 2 +
+        contar("Escudo do Guardião") * 2 +
+        contar("Peitoral de Titã") * 3 +
+        contar("Manto das Sombras") +
+        contar("Anel de Aço") + bonusAGI;
 
     const bonusDano =
         contar("Lâmina de Ferro") * 2 +
@@ -1204,6 +1224,22 @@ function mostrarFicha(ficha, abaInicial = "geral") {
                     <p><strong>Elemento:</strong> ${escaparHTML(ficha.elemento)}</p>
                     <p><strong>PV:</strong> ${ficha.pvAtual}/${atualStats.pv}</p>
                     <p><strong>PE:</strong> ${ficha.peAtual}/${atualStats.pe}</p>
+                    <div class="acoes">
+                        <button data-recurso="pv" data-valor="-1">− 1 PV</button>
+                        <button data-recurso="pv" data-valor="1">+ 1 PV</button>
+                        <button data-recurso="pe" data-valor="-1">− 1 PE</button>
+                        <button data-recurso="pe" data-valor="1">+ 1 PE</button>
+                    </div>
+                    <div class="campo">
+                        <label for="quantidade-recurso">Alterar vários pontos de uma vez</label>
+                        <input id="quantidade-recurso" type="number" min="1" value="5">
+                    </div>
+                    <div class="acoes">
+                        <button data-recurso-lote="pv" data-valor="-1" class="perigo">Diminuir PV</button>
+                        <button data-recurso-lote="pv" data-valor="1">Aumentar PV</button>
+                        <button data-recurso-lote="pe" data-valor="-1" class="perigo">Diminuir PE</button>
+                        <button data-recurso-lote="pe" data-valor="1">Aumentar PE</button>
+                    </div>
                     <p><strong>Defesa:</strong> ${atualStats.defesa}</p>
                     <p><strong>Dano físico adicional:</strong> +${atualStats.danoFisico}</p>
                     <p><strong>Habilidade inicial:</strong> ${escaparHTML(classes[ficha.classe].habilidade)}</p>
@@ -1611,6 +1647,22 @@ function mostrarFicha(ficha, abaInicial = "geral") {
         }
     }
 
+    area.onclick = evento => {
+        const botao = evento.target.closest("[data-recurso], [data-recurso-lote]");
+        if (!botao) return;
+        const recurso = botao.dataset.recurso || botao.dataset.recursoLote;
+        let quantidade = 1;
+        if (botao.dataset.recursoLote) {
+            quantidade = numeroSeguro(document.getElementById("quantidade-recurso")?.value || 1, 1, 999999);
+        }
+        const delta = quantidade * Number(botao.dataset.valor);
+        const stats = calcular(ficha);
+        if (recurso === "pv") ficha.pvAtual = Math.max(0, Math.min(stats.pv, ficha.pvAtual + delta));
+        if (recurso === "pe") ficha.peAtual = Math.max(0, Math.min(stats.pe, ficha.peAtual + delta));
+        salvarPersonagem(ficha);
+        mostrarFicha(ficha, aba);
+    };
+
     document.querySelectorAll("[data-aba]").forEach(botao => {
         botao.onclick = () => {
             aba = botao.dataset.aba;
@@ -1674,8 +1726,10 @@ function novoMonstro() {
         },
         pericias: [],
         vida: 10,
+        vidaAtual: 10,
         defesa: 10,
         pe: 0,
+        peAtual: 0,
         xpRecompensa: 1000,
         magias: "",
         aparencia: ""
@@ -1702,6 +1756,8 @@ function normalizarMonstro(monstro) {
         : [];
 
     monstro.vida = numeroSeguro(monstro.vida ?? 10, 0, 999999);
+    monstro.vidaAtual = numeroSeguro(monstro.vidaAtual ?? monstro.vida, 0, monstro.vida);
+    monstro.peAtual = numeroSeguro(monstro.peAtual ?? monstro.pe ?? 0, 0, 999999);
     monstro.defesa = numeroSeguro(monstro.defesa ?? 10, 0, 999999);
     monstro.pe = numeroSeguro(monstro.pe ?? 0, 0, 999999);
     monstro.xpRecompensa = numeroSeguro(
@@ -1785,9 +1841,9 @@ function mostrarMonstros() {
                         : ""}
                 </p>
                 <p>
-                    Vida: ${monstro.vida}
+                    PV: ${monstro.vidaAtual}/${monstro.vida}
                     · Defesa: ${monstro.defesa}
-                    · PE: ${monstro.pe}
+                    · PE: ${monstro.peAtual}/${monstro.pe}
                 </p>
                 <p>
                     Recompensa: ${monstro.xpRecompensa.toLocaleString("pt-BR")} XP
@@ -2066,9 +2122,27 @@ function mostrarFichaMonstro(monstro) {
         </p>
 
         <section class="secao">
-            <p><strong>Vida:</strong> ${monstro.vida}</p>
+            <p><strong>PV:</strong> <span id="monstro-pv-valor">${monstro.vidaAtual}/${monstro.vida}</span></p>
+            <div class="acoes">
+                <button data-monstro-recurso="pv" data-valor="-1" class="perigo">− 1 PV</button>
+                <button data-monstro-recurso="pv" data-valor="1">+ 1 PV</button>
+            </div>
             <p><strong>Defesa:</strong> ${monstro.defesa}</p>
-            <p><strong>PE:</strong> ${monstro.pe}</p>
+            <p><strong>PE:</strong> <span id="monstro-pe-valor">${monstro.peAtual}/${monstro.pe}</span></p>
+            <div class="acoes">
+                <button data-monstro-recurso="pe" data-valor="-1" class="perigo">− 1 PE</button>
+                <button data-monstro-recurso="pe" data-valor="1">+ 1 PE</button>
+            </div>
+            <div class="campo">
+                <label for="monstro-quantidade">Alterar vários pontos</label>
+                <input id="monstro-quantidade" type="number" min="1" value="5">
+            </div>
+            <div class="acoes">
+                <button data-monstro-lote="pv" data-valor="-1" class="perigo">Diminuir PV</button>
+                <button data-monstro-lote="pv" data-valor="1">Aumentar PV</button>
+                <button data-monstro-lote="pe" data-valor="-1" class="perigo">Diminuir PE</button>
+                <button data-monstro-lote="pe" data-valor="1">Aumentar PE</button>
+            </div>
             <p>
                 <strong>Recompensa:</strong>
                 ${monstro.xpRecompensa.toLocaleString("pt-BR")} XP
@@ -2112,6 +2186,22 @@ function mostrarFichaMonstro(monstro) {
             <button id="voltar-monstros" class="secundario">Voltar aos monstros</button>
         </div>
     `;
+
+    function alterarRecursoMonstro(recurso, delta) {
+        if (recurso === "pv") monstro.vidaAtual = Math.max(0, Math.min(monstro.vida, monstro.vidaAtual + delta));
+        if (recurso === "pe") monstro.peAtual = Math.max(0, Math.min(monstro.pe, monstro.peAtual + delta));
+        salvarMonstro(monstro);
+        mostrarFichaMonstro(monstro);
+    }
+    document.querySelectorAll("[data-monstro-recurso]").forEach(botao => {
+        botao.onclick = () => alterarRecursoMonstro(botao.dataset.monstroRecurso, Number(botao.dataset.valor));
+    });
+    document.querySelectorAll("[data-monstro-lote]").forEach(botao => {
+        botao.onclick = () => {
+            const quantidade = numeroSeguro(document.getElementById("monstro-quantidade")?.value || 1, 1, 999999);
+            alterarRecursoMonstro(botao.dataset.monstroLote, quantidade * Number(botao.dataset.valor));
+        };
+    });
 
     const personagens = carregarPersonagens();
     const area = document.getElementById("personagens-recompensa");
@@ -2250,6 +2340,22 @@ function mostrarRegras() {
             <p><strong>Conjurador:</strong> +3 PV e +3 PE por nível.</p>
             <p><strong>Trapaceiro, Suporte, Investigador e Agente do Caos:</strong> +4 PV e +2 PE por nível.</p>
             <p>PV e PE máximos também consideram atributos e itens equipados.</p>
+        </section>
+
+        <section class="secao">
+            <h3>PV e PE durante o jogo</h3>
+            <p>Na ficha do personagem ou na consulta do inimigo, use os botões + e − para ajustar PV e PE durante o combate. Os valores nunca ficam abaixo de 0 nem ultrapassam os máximos cadastrados. Para inimigos, aumente o PV ou PE máximo no editor antes de tentar ultrapassar o limite.</p>
+        </section>
+
+        <section class="secao">
+            <h3>Itens de defesa</h3>
+            <p><strong>Armadura Reforçada:</strong> +2 Defesa.</p>
+            <p><strong>Escudo do Guardião:</strong> +2 Defesa.</p>
+            <p><strong>Peitoral de Titã:</strong> +3 Defesa.</p>
+            <p><strong>Manto das Sombras:</strong> +1 Defesa.</p>
+            <p><strong>Anel de Aço:</strong> +1 Defesa.</p>
+            <p><strong>Botas Leves:</strong> +1 Defesa e +1 Agilidade.</p>
+            <p>Os bônus são aplicados automaticamente quando o item está no inventário. Para manter o equilíbrio, itens iguais acumulam, mas o mestre pode limitar armaduras pesadas ou escudos conforme a campanha.</p>
         </section>
 
         <section class="secao">
