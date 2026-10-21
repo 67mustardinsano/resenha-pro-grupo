@@ -513,6 +513,9 @@ function normalizarPersonagem(ficha) {
     ficha.pericias = Array.isArray(ficha.pericias) ? ficha.pericias : [];
     ficha.itens = Array.isArray(ficha.itens) ? ficha.itens : [];
     ficha.poderes = Array.isArray(ficha.poderes) ? ficha.poderes : [];
+    ficha.armeiro = ficha.armeiro && typeof ficha.armeiro === "object" ? ficha.armeiro : { nome: "", dano: "1d8", ajuste: "nenhum", valor: 0 };
+    ficha.arvore = ficha.arvore && typeof ficha.arvore === "object" ? ficha.arvore : { caminho: "", nivel: 0, compras: [] };
+
 
     for (const atributo of atributos) {
         ficha.atributos[atributo.sigla] =
@@ -2404,3 +2407,121 @@ function mostrarRegras() {
 }
 
 mostrarInicio();
+
+/* SISTEMAS ADICIONAIS — arma personalizada, trilhas e rebalanceamento */
+const trilhasRPG = {
+    Combatente: {
+        "Casca Grossa": ["Seu PV máximo aumenta em +4. Você também recebe +1 PV máximo por nível de personagem enquanto seguir esta trilha.", "Uma vez por rodada, quando sofrer dano, reduza esse dano em 3 (custa 1 PE). Não reduz dano inevitável ou ambiental decidido pelo mestre.", "Uma vez por combate, quando seria reduzido a 0 PV, fica com 1 PV e recebe resistência 2 a todo dano até o início do seu próximo turno."],
+        "Guerreiro": ["Uma vez por rodada, ao acertar um ataque corpo a corpo, causa +1d4 de dano sem custo de PE.", "Uma vez por rodada, pode gastar 2 PE para realizar um golpe preciso: +1d8 de dano. Declare antes de rolar o dano.", "Uma vez por combate, execute um Golpe Devastador: +2d8 de dano e ignore 2 pontos de Defesa do alvo. Até seu próximo turno, sua Defesa diminui em 1."],
+        "Destruidor": ["Escolha uma categoria de arma. Com ela, recebe +2 no dano e +1 em testes para desarmar ou manter a arma; bônus não se aplica a outras armas.", "Seus críticos com a arma escolhida acontecem com uma margem 1 ponto maior, respeitando o limite do sistema. Uma vez por rodada, ao tirar o valor máximo em um dado de dano, some +1d4 de dano.", "Uma vez por rodada, gaste 2 PE para um ataque com a arma escolhida que ignora 3 pontos de Defesa. Uma vez por combate, um crítico confirmado causa +2d8 de dano adicional." ]
+    },
+    Conjurador: {
+        "Terror": ["Quando estiver adjacente ao alvo, seus rituais ofensivos causam +2 de dano. Uma vez por rodada, ao acertar um ataque corpo a corpo, cause +1d4 de dano mágico adicional.", "Uma vez por rodada, depois de acertar um ataque corpo a corpo, seu próximo ritual ofensivo na mesma rodada custa 1 PE a menos (mínimo 1). Se gastar 2 PE, o ataque também causa +1d6 de dano mágico.", "Uma vez por combate, una golpe e ritual: após acertar um ataque corpo a corpo, conjure um ritual ofensivo como ação rápida, pagando seu custo normal. O ritual causa metade do dano normal adicional se atingir o mesmo alvo."],
+        "Masoquista": ["Uma vez por rodada, pode perder até 3 PV voluntariamente para recuperar 1 PE por PV perdido. Esse dano não pode reduzir você abaixo de 1 PV.", "Ao conjurar um ritual, pode pagar até 3 pontos do custo em PV, na proporção de 2 PV por 1 PE. Não pode usar se estiver com 4 PV ou menos.", "Uma vez por combate, converta até 6 PV em PE na proporção de 1 para 1. Não pode ficar abaixo de 1 PV e, até o fim do próximo turno, recebe +2 de dano de todas as fontes."],
+        "Dois em um": ["Escolha uma Marca da Entidade: +2 em Ocultismo ou Intimidação. Ativar a marca custa 1 PV e só pode ocorrer uma vez por rodada.", "Uma vez por combate, aceite 4 de dano que não pode ser reduzido para receber +2 em um teste e +1d8 de dano no próximo ataque ou ritual ofensivo.", "Uma vez por combate, a entidade assume por 2 rodadas: recebe +2 em testes de Ocultismo e +1d8 de dano. Ao terminar, perde 3 PE; se não tiver PE suficiente, fica com -2 em testes até o fim da próxima rodada." ]
+    },
+    Trapaceiro: {
+        "Assassino em série": ["Ao atacar um alvo que não percebeu sua presença, causa +1d6 de dano. Se estiver em combate direto sem cobertura ou distração, sofre -1 Defesa.", "Pode preparar uma armadilha com 2 PE e uma ação. O primeiro inimigo que a acionar sofre 2d6 de dano e perde 3m de deslocamento; só pode manter uma armadilha ativa.", "Uma vez por rodada, seu ataque furtivo causa +2d6 de dano. Se errar, fica exposto e sofre -1 Defesa até o início do seu próximo turno."],
+        "Último Sobrevivente": ["Recebe +2 em testes para fugir, escapar de agarrões e evitar ser derrubado.", "Uma vez por combate, reduza pela metade o dano de um ataque recebido e mova-se até 4,5m sem provocar reação.", "Enquanto estiver com 25% ou menos dos PV máximos, recebe +2 Defesa e pode se levantar ou escapar de agarrão sem gastar ação uma vez por rodada. Uma vez por combate, ao ser atingido, pode mover-se 3m imediatamente."],
+        "Entrosa": ["Recebe +2 em Persuasão e Enganação ao interagir com humanos que possam compreender você.", "Uma vez por rodada, gaste 2 PE para impor -2 no próximo teste social de um alvo que possa ouvir e entender você, ou conceder +2 a um aliado na conversa.", "Uma vez por cena, após uma conversa bem-sucedida, pode encerrar uma hostilidade menor, conseguir uma breve trégua ou criar uma abertura de negociação. Não controla mentes nem altera objetivos fundamentais." ]
+    },
+    Suporte: {
+        "Última Opção": ["Uma vez por rodada, gaste 1 PE e perca 2 PV para restaurar 4 PV de um aliado a até 6m. Você não pode ficar abaixo de 1 PV.", "Uma vez por rodada, transfira até 5 PV para um aliado a até 6m, pagando 1 PE para cada 2 PV transferidos (arredondado para cima). Não pode deixar você abaixo de 1 PV.", "Uma vez por combate, transfira até 8 PV e 3 PE para um aliado a até 6m. O aliado também recebe +2 Defesa até o início do seu próximo turno; você não pode ficar abaixo de 1 PV."],
+        "Líder": ["Uma vez por rodada, escolha um aliado que possa ouvir você: ele recebe +2 no próximo teste ou pode se mover 3m imediatamente.", "Duas vezes por combate, gaste 2 PE para permitir que um aliado realize uma ação de movimento adicional ou receba +1d6 em um teste ou dano. Não concede ação de ataque completa extra.", "Uma vez por combate, coordene até dois aliados: cada um recebe +2 no próximo teste e pode se mover 3m imediatamente. Um deles também pode usar uma reação para proteger um aliado adjacente, reduzindo o dano recebido em 1d8."],
+        "Ferreiro": ["Durante um descanso, conserte uma arma ou armadura e escolha uma arma aliada: ela recebe +1 de dano no próximo combate. Esse bônus não acumula.", "Após 10 minutos de trabalho, gaste 2 PE para aprimorar uma arma: +2 de dano até o fim da próxima cena, ou +1 Defesa em uma armadura. Só um aprimoramento por personagem pode ficar ativo.", "Uma vez por descanso, prepare uma melhoria superior: uma arma recebe +1d6 de dano no próximo ataque que acertar, ou uma armadura reduz em 3 o dano de um ataque recebido. O efeito termina após ativar ou no fim da cena." ]
+    },
+    Investigador: {
+        "Expert": ["Após observar uma pista ou criatura por uma rodada, recebe +2 no próximo teste para identificar uma característica, fraqueza ou padrão dela.", "Depois de descobrir uma vulnerabilidade real do inimigo, a CD dos seus testes diretamente relacionados a explorá-la diminui em 2 até o fim da cena.", "Uma vez por rodada, compartilhe uma descoberta: você e um aliado recebem +2 no próximo teste contra o alvo investigado. Não reduz CDs abaixo do mínimo definido pelo mestre."],
+        "Bixo do Mato": ["Recebe +2 em Medicina e Sobrevivência em ambientes naturais. Fora de combate, pode estabilizar um aliado sem teste se tiver ferramentas adequadas.", "Pode gastar uma ação por rodada para estudar o terreno. Após 1 rodada, identifica uma rota segura, cobertura, esconderijo ou ponto plausível de emboscada; após 2 rodadas, também aponta o risco mais provável do local.", "Uma vez por cena, prepara o terreno para o grupo: até três aliados recebem +2 em Furtividade ou no primeiro teste para evitar uma emboscada. Em ambiente natural, você também pode encontrar recursos básicos se houver tempo."],
+        "8 ou 80": ["Uma vez por cena, gaste 1 PE para formular duas hipóteses sobre uma pista. O mestre informa qual parece mais plausível, sem garantir que esteja completa.", "Uma vez por rodada, gaste 2 PE para escolher uma entre três abordagens investigativas. Você recebe uma pista útil, mas pode haver custo de tempo, exposição ou recurso.", "Uma vez por cena, gaste 3 PE para testar uma hipótese decisiva. Recebe uma resposta concreta e útil, mas o mestre pode incluir uma complicação realista; não pode revelar automaticamente toda a solução do mistério." ]
+    },
+    "Agente do Caos": {
+        "Imprevisível": ["Uma vez por rodada, depois de rolar um teste, gaste 1 PE para somar ou subtrair 1d4 do resultado.", "Uma vez por combate, gaste 2 PE para substituir o resultado de um teste próprio por 10 + o atributo usado. Deve declarar antes de saber se a consequência será favorável.", "Uma vez por combate, declare uma aposta antes de rolar: se tiver sucesso, recebe +2 no teste ou +2d8 de dano; se falhar, sofre 1d6 de dano e perde 2 PE."],
+        "Anomalia": ["Escolha dois atributos. Uma vez por rodada, pode usar um no lugar do outro em um teste plausível, explicando a abordagem incomum.", "Uma vez por rodada, gaste 2 PE para reproduzir um efeito simples e não-danoso que tenha presenciado na cena. Não copia habilidades únicas, rituais completos ou poderes de chefe.", "Uma vez por combate, distorça uma regra pequena por uma rodada, com aprovação do mestre: por exemplo, atravessar uma abertura impossível ou agir em condição incomum. Não anula ataques, não garante sucessos e não altera regras centrais."],
+        "Sobrevivente do Impossível": ["Uma vez por rodada, quando sofrer dano, reduza-o em 1d4 (mínimo 1 de dano recebido).", "Enquanto estiver com metade ou menos dos PV, recebe +2 Defesa contra o próximo ataque que sofrer a cada rodada.", "Uma vez por combate, transforme uma falha em um sucesso parcial, com custo ou consequência definida pelo mestre. Você sofre 1d6 de dano que não pode ser reduzido." ]
+    }
+};
+const custosTrilha = [20000, 20000, 20000];
+const trilhaPontos = nivel => Math.max(0, Math.min(3, Math.floor(nivel / 3)));
+
+function calcular(ficha) {
+    const classe = classes[ficha.classe] || classes.Combatente;
+    const nivel = numeroSeguro(ficha.nivel || 1, 1, NIVEL_MAXIMO);
+    const contar = nome => ficha.itens.filter(item => item.toLowerCase() === nome.toLowerCase()).length;
+    const bonusPV = contar("Núcleo Vital") * 4 + contar("Amuleto Vital") * 2;
+    const bonusPE = contar("Cristal de Energia") * 3;
+    const bonusAGI = contar("Botas Leves");
+    const bonusDefesa = contar("Armadura Reforçada")*2 + contar("Escudo do Guardião")*2 + contar("Peitoral de Titã")*3 + contar("Manto das Sombras") + contar("Anel de Aço") + bonusAGI;
+    const arma = ficha.armeiro || {};
+    const ajuste = arma.ajuste === "pv" ? {pv: Number(arma.valor)||0} : arma.ajuste === "pe" ? {pe:Number(arma.valor)||0} : arma.ajuste === "defesa" ? {defesa:Number(arma.valor)||0} : {};
+    const bonusTrilhaPV = ficha.arvore?.caminho === "Casca Grossa" ? 4 + (Number(ficha.nivel||1)-1) : 0;
+    return {
+        pv: classe.pv + 2*Number(ficha.atributos.VIG||0) + bonusPV + (classe.pvPorNivel||0)*(nivel-1) + (ajuste.pv||0) + bonusTrilhaPV,
+        pe: classe.pe + 2*Number(ficha.atributos.ESP||0) + bonusPE + (classe.pePorNivel||0)*(nivel-1) + (ajuste.pe||0),
+        defesa: 8 + Number(ficha.atributos.AGI||0) + bonusDefesa + (ajuste.defesa||0),
+        danoFisico: contar("Lâmina de Ferro")*2 + (ficha.classe==="Combatente" && nivel>=10 ? 2 : 0) + (ficha.arvore?.caminho==="Guerreiro" ? 0 : 0)
+    };
+}
+
+const abrirEditorOriginal = abrirEditor;
+abrirEditor = function(ficha) {
+    abrirEditorOriginal(ficha);
+    const arma = ficha.armeiro || {nome:"",dano:"1d8",ajuste:"nenhum",valor:0};
+    const secao = document.createElement("section");
+    secao.className = "secao";
+    secao.innerHTML = `<h3>Arma personalizada</h3>
+      <p>Escolha apenas um ajuste de ficha. Os valores são aplicados automaticamente ao salvar.</p>
+      <div class="grade">
+        <div class="campo"><label for="arma-nome">Nome da arma</label><input id="arma-nome" maxlength="40" value="${escaparHTML(arma.nome||"")}" placeholder="Ex.: Lâmina do Eclipse"></div>
+        <div class="campo"><label for="arma-dano">Dano-base</label><select id="arma-dano">${["1d4","1d6","1d8","1d10","1d12"].map(v=>`<option ${arma.dano===v?"selected":""}>${v}</option>`).join("")}</select></div>
+      </div>
+      <div class="grade">
+        <div class="campo"><label for="arma-ajuste">Ajuste da ficha</label><select id="arma-ajuste">${[["nenhum","Sem bônus"],["pv","PV máximos"],["pe","PE máximos"],["defesa","Defesa"]].map(([v,n])=>`<option value="${v}" ${arma.ajuste===v?"selected":""}>${n}</option>`).join("")}</select></div>
+        <div class="campo"><label for="arma-valor">Valor do ajuste</label><input id="arma-valor" type="number" min="0" max="5" value="${Number(arma.valor)||0}"></div>
+      </div>
+      <p class="aviso">Limite recomendado: +5 PV, +3 PE ou +1 Defesa. Escolha um único atributo.</p>`;
+    const botoes = conteudo.querySelector(".acoes");
+    if (botoes) conteudo.insertBefore(secao,botoes);
+    const salvar = document.getElementById("salvar-personagem");
+    const handlerAntigo = salvar.onclick;
+    salvar.onclick = () => {
+        const ajuste = document.getElementById("arma-ajuste").value;
+        const valor = Number(document.getElementById("arma-valor").value);
+        const max = ajuste==="pv" ? 5 : ajuste==="pe" ? 3 : ajuste==="defesa" ? 1 : 0;
+        if (!Number.isInteger(valor) || valor < 0 || valor > max) { alert(`Valor inválido. Limite para esse ajuste: ${max}.`); return; }
+        ficha.armeiro = {nome:document.getElementById("arma-nome").value.trim(),dano:document.getElementById("arma-dano").value,ajuste,valor};
+        handlerAntigo();
+    };
+};
+
+const mostrarFichaOriginal = mostrarFicha;
+mostrarFicha = function(ficha, abaInicial="geral") {
+    mostrarFichaOriginal(ficha,abaInicial);
+    const arvore = ficha.arvore || {caminho:"",nivel:0,compras:[]};
+    const classeTrilhas = trilhasRPG[ficha.classe] || trilhasRPG.Combatente;
+    const escolhida = arvore.caminho;
+    const bloco = document.createElement("section");
+    bloco.className = "secao";
+    bloco.innerHTML = `<h3>Árvore de trilha</h3><p><strong>Arma personalizada:</strong> ${escaparHTML(ficha.armeiro?.nome || "Não definida")} · Dano-base ${escaparHTML(ficha.armeiro?.dano || "1d8")} · Ajuste ${escaparHTML(ficha.armeiro?.ajuste || "nenhum")} ${Number(ficha.armeiro?.valor)||0}</p>
+      <p>Escolha um caminho. A escolha é permanente. Cada etapa custa 20.000 XP e desbloqueia uma habilidade nova. O XP é compartilhado com a progressão de nível: investir na trilha significa abrir mão temporariamente de parte do progresso de nível.</p>
+      ${escolhida ? `<p><strong>Caminho:</strong> ${escaparHTML(escolhida)} · <strong>Habilidades:</strong> ${arvore.nivel||0}/3</p>` : `<p>Escolha uma das três trilhas da sua classe:</p><div class="grade">${Object.entries(classeTrilhas).map(([nome,skills])=>`<div class="ficha-bloco"><h4>${escaparHTML(nome)}</h4><p>${escaparHTML(skills[0])}</p><button data-trilha="${escaparHTML(nome)}">Escolher caminho</button></div>`).join("")}</div>`}
+      ${escolhida ? `<ol>${(classeTrilhas[escolhida]||[]).map((desc,i)=>`<li>${escaparHTML(desc)} ${i<(arvore.nivel||0)?"<strong>(Desbloqueada)</strong>":""}</li>`).join("")}</ol>
+      ${Number(arvore.nivel||0)<3?`<button id="upar-trilha">Desbloquear habilidade (20.000 XP)</button>`:"<p>Árvore concluída!</p>"}
+      <button id="reset-trilha" class="secundario">Reiniciar escolha (sem reembolso)</button>`:""}`;
+    const alvo = conteudo.querySelector(".ficha-bloco")?.parentElement || conteudo;
+    alvo.appendChild(bloco);
+    bloco.querySelectorAll("[data-trilha]").forEach(b=>b.onclick=()=>{
+      if(!confirm(`Escolher ${b.dataset.trilha}? Essa escolha é permanente.`)) return;
+      ficha.arvore={caminho:b.dataset.trilha,nivel:0,compras:[]}; salvarPersonagem(ficha); mostrarFicha(ficha);
+    });
+    const upar=bloco.querySelector("#upar-trilha");
+    if(upar) upar.onclick=()=>{
+      const nivel=Number(ficha.arvore.nivel)||0, custo=20000;
+      if(nivel>=3){return;}
+      if((Number(ficha.xp)||0)<custo){alert(`Você precisa de ${custo.toLocaleString("pt-BR")} XP acumulados para comprar esta habilidade.`);return;}
+      ficha.xp-=custo; ficha.arvore.nivel=nivel+1; ficha.arvore.compras=[...(ficha.arvore.compras||[]),nivel+1];
+      salvarPersonagem(ficha); mostrarFicha(ficha);
+    };
+    const reset=bloco.querySelector("#reset-trilha");
+    if(reset) reset.onclick=()=>{if(confirm("Reiniciar sem reembolso?")){ficha.arvore={caminho:"",nivel:0,compras:[]};salvarPersonagem(ficha);mostrarFicha(ficha);}};
+};

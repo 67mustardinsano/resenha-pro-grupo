@@ -391,3 +391,13 @@ footer {
         flex-direction: column;
     }
 }
+
+/* Organização visual */
+header { position: relative; }
+header::after { content: "FICHAS · PROGRESSÃO · REGRAS"; display:block; margin-top:12px; font-size:11px; letter-spacing:2px; color:var(--azul-claro); }
+main { max-width: 1050px; padding: clamp(18px, 3vw, 32px); }
+.secao { padding: 22px; border: 1px solid var(--borda); border-radius: 10px; background: #292d33; }
+.secao h3 { margin-top: 0; }
+.ficha-bloco h4 { margin-top:0; }
+button { line-height:1.25; }
+@media(max-width:650px) { .grade,.grade-atributos,.lista-pericias,.resumo { grid-template-columns:1fr; } .acoes button { flex:1 1 100%; } }
