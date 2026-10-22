@@ -2436,9 +2436,21 @@ const trilhasRPG = {
         "8 ou 80": ["Uma vez por cena, gaste 1 PE para formular duas hipóteses sobre uma pista. O mestre informa qual parece mais plausível, sem garantir que esteja completa.", "Uma vez por rodada, gaste 2 PE para escolher uma entre três abordagens investigativas. Você recebe uma pista útil, mas pode haver custo de tempo, exposição ou recurso.", "Uma vez por cena, gaste 3 PE para testar uma hipótese decisiva. Recebe uma resposta concreta e útil, mas o mestre pode incluir uma complicação realista; não pode revelar automaticamente toda a solução do mistério." ]
     },
     "Agente do Caos": {
-        "Imprevisível": ["Uma vez por rodada, depois de rolar um teste, gaste 1 PE para somar ou subtrair 1d4 do resultado.", "Uma vez por combate, gaste 2 PE para substituir o resultado de um teste próprio por 10 + o atributo usado. Deve declarar antes de saber se a consequência será favorável.", "Uma vez por combate, declare uma aposta antes de rolar: se tiver sucesso, recebe +2 no teste ou +2d8 de dano; se falhar, sofre 1d6 de dano e perde 2 PE."],
-        "Anomalia": ["Escolha dois atributos. Uma vez por rodada, pode usar um no lugar do outro em um teste plausível, explicando a abordagem incomum.", "Uma vez por rodada, gaste 2 PE para reproduzir um efeito simples e não-danoso que tenha presenciado na cena. Não copia habilidades únicas, rituais completos ou poderes de chefe.", "Uma vez por combate, distorça uma regra pequena por uma rodada, com aprovação do mestre: por exemplo, atravessar uma abertura impossível ou agir em condição incomum. Não anula ataques, não garante sucessos e não altera regras centrais."],
-        "Sobrevivente do Impossível": ["Uma vez por rodada, quando sofrer dano, reduza-o em 1d4 (mínimo 1 de dano recebido).", "Enquanto estiver com metade ou menos dos PV, recebe +2 Defesa contra o próximo ataque que sofrer a cada rodada.", "Uma vez por combate, transforme uma falha em um sucesso parcial, com custo ou consequência definida pelo mestre. Você sofre 1d6 de dano que não pode ser reduzido." ]
+        "Apostador do Apocalipse": [
+            "Uma vez por rodada, antes de um teste próprio, aposte 1 PE. Se passar, recebe +2 no resultado; se falhar, perde o PE apostado e sofre 1d4 de dano.",
+            "Uma vez por combate, antes de um ataque ou teste importante, aposte 2 PE e role normalmente. Se tiver sucesso, escolha +1d8 de dano ou +1d4 no resultado; se falhar, sofre 1d6 de dano e não recupera os PE.",
+            "Uma vez por combate, declare uma Aposta Final antes de rolar um ataque. Se acertar, causa +2d8 de dano; se errar, sofre 1d8 de dano que não pode ser reduzido e perde 2 PE. Não pode usar se não tiver os PE para pagar."
+        ],
+        "Mestre da Desgraça": [
+            "Uma vez por rodada, gaste 1 PE depois que um inimigo que esteja participando do combate fizer um teste. Se ele falhar, recebe -1 no próximo teste; se passar, nenhum efeito adicional acontece.",
+            "Uma vez por rodada, gaste 2 PE para marcar um inimigo à sua escolha por até 2 rodadas. A primeira vez que ele acertar um ataque nesse período, causa 1d4 a menos de dano (mínimo 1); depois a marca termina.",
+            "Uma vez por combate, quando um inimigo marcado usar uma habilidade especial, gaste 2 PE para impor -2 no teste relacionado ou reduzir em 1d8 o dano/efeito numérico da habilidade. Não cancela habilidades nem altera decisões narrativas."
+        ],
+        "Maldição Ambulante": [
+            "Uma vez por rodada, gaste 1 PE para amaldiçoar um inimigo à sua escolha que esteja participando do combate. Até o início do seu próximo turno, ele sofre -1 no próximo teste que fizer.",
+            "Uma vez por rodada, gaste 2 PE para reforçar a maldição de um alvo já amaldiçoado. O próximo ataque que acertar esse alvo causa +1d6 de dano; a maldição termina depois desse ataque ou no início do seu próximo turno.",
+            "Uma vez por combate, amaldiçoe um alvo por até 2 rodadas. Na primeira vez em cada rodada que ele sofrer dano de um aliado, reduza sua Defesa em 1 contra o próximo ataque antes do fim da rodada. Efeitos da trilha não acumulam entre si."
+        ]
     }
 };
 // Quarta habilidade de cada trilha. Cada uma segue o estilo daquela trilha.
@@ -2458,9 +2470,9 @@ const habilidadesNivel4 = {
     "Expert": "Uma vez por combate, depois de estudar um inimigo por uma rodada, revele uma fraqueza real. O próximo ataque seu e de até dois aliados contra ele causa +1d8 de dano.",
     "Bixo do Mato": "Uma vez por cena em ambiente natural, encontre uma rota segura e prepare uma emboscada. Até três aliados recebem +1d8 no primeiro ataque ou teste de Furtividade relacionado.",
     "8 ou 80": "Uma vez por cena, gaste 3 PE para testar uma hipótese importante. Receba uma resposta concreta sobre a pista; o mestre ainda pode apontar um custo, risco ou detalhe que ficou de fora.",
-    "Imprevisível": "Uma vez por combate, antes de rolar um teste, declare uma aposta. Se passar, some +2d8 ao dano ou +1d8 ao resultado; se falhar, sofre 1d8 de dano e perde 2 PE.",
-    "Anomalia": "Uma vez por combate, reproduza um efeito simples que tenha visto na cena, mesmo que normalmente não pudesse fazê-lo. Não copia rituais completos, poderes únicos ou habilidades de chefes.",
-    "Sobrevivente do Impossível": "Uma vez por combate, quando falhar em um teste, transforme a falha em sucesso parcial. Você sofre 1d8 de dano que não pode ser reduzido e o mestre define uma complicação.",
+    "Apostador do Apocalipse": "Uma vez por combate, antes de um ataque, aposte 3 PE. Se acertar, causa +3d8 de dano; se errar, sofre 1d8 de dano que não pode ser reduzido e perde os PE apostados. Deve ter os 3 PE disponíveis antes de declarar a aposta.",
+    "Mestre da Desgraça": "Uma vez por combate, escolha até dois inimigos que estejam participando do combate. Até o início do seu próximo turno, cada um sofre -2 no primeiro teste que fizer ou causa -1d8 no primeiro dano que causar. Cada inimigo é afetado por apenas uma dessas opções.",
+    "Maldição Ambulante": "Uma vez por combate, amaldiçoe um inimigo à sua escolha que esteja participando do combate por 2 rodadas. Uma vez por rodada, quando ele sofrer dano, o próximo ataque de um aliado contra ele recebe +1d8 de dano. Esse bônus só pode ocorrer uma vez por rodada e não acumula com outras habilidades desta trilha.",
 };
 for (const caminhos of Object.values(trilhasRPG)) {
     for (const [nome, habilidades] of Object.entries(caminhos)) {
