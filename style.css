@@ -401,3 +401,11 @@ main { max-width: 1050px; padding: clamp(18px, 3vw, 32px); }
 .ficha-bloco h4 { margin-top:0; }
 button { line-height:1.25; }
 @media(max-width:650px) { .grade,.grade-atributos,.lista-pericias,.resumo { grid-template-columns:1fr; } .acoes button { flex:1 1 100%; } }
+
+/* Cartões da progressão das trilhas */
+.niveis-trilha { align-items: stretch; margin: 1rem 0; }
+.nivel-trilha { min-width: 0; }
+.nivel-trilha h4 { margin-top: 0; }
+.nivel-trilha .custo-xp { font-weight: 700; margin: .35rem 0 .65rem; }
+.nivel-trilha.desbloqueado { border-left: 4px solid var(--cor-sucesso, #4d9562); }
+.nivel-trilha.bloqueado { opacity: .78; }
