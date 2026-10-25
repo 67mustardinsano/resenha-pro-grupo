@@ -2441,7 +2441,34 @@ const trilhasRPG = {
         "Sobrevivente do Impossível": ["Uma vez por rodada, quando sofrer dano, reduza-o em 1d4 (mínimo 1 de dano recebido).", "Enquanto estiver com metade ou menos dos PV, recebe +2 Defesa contra o próximo ataque que sofrer a cada rodada.", "Uma vez por combate, transforme uma falha em um sucesso parcial, com custo ou consequência definida pelo mestre. Você sofre 1d6 de dano que não pode ser reduzido." ]
     }
 };
-const custosTrilha = [20000, 20000, 20000];
+// Quarta habilidade de cada trilha. Cada uma segue o estilo daquela trilha.
+const habilidadesNivel4 = {
+    "Casca Grossa": "Uma vez por combate, quando um ataque reduzir você a 0 PV, fique com 1 PV e reduza todo dano recebido em 3 até seu próximo turno.",
+    "Guerreiro": "Uma vez por combate, faça um ataque corpo a corpo. Se acertar, causa +3d8 de dano e empurra o alvo 3m.",
+    "Destruidor": "Uma vez por combate, faça um ataque com a arma escolhida. Ele ignora 4 pontos de Defesa e causa +3d8 de dano se acertar.",
+    "Terror": "Uma vez por combate, depois de acertar um ataque corpo a corpo, lance um ritual ofensivo como ação rápida. Se atingir o mesmo alvo, some +2d8 de dano mágico.",
+    "Masoquista": "Uma vez por combate, converta até 10 PV em PE, na proporção de 1 para 1. Você não pode ficar abaixo de 1 PV; até o fim do próximo turno, causa +1d8 de dano.",
+    "Pactoado": "Manifestação Total (ativa, 1 vez por combate): por 2 rodadas, a entidade toma parte do seu corpo. Role 2d6+2 para o bônus e 1d6+2 para o preço em PV ou PE. Você escolhe o recurso antes de rolar. Pode aceitar morrer ao fim do efeito, mas só se declarar isso antes da ativação.",
+    "Assassino em série": "Uma vez por combate, ataque um alvo que não percebeu sua presença. Se acertar, causa +3d8 de dano e pode se mover 3m sem provocar reação.",
+    "Último Sobrevivente": "Uma vez por combate, quando cair a 25% dos PV ou menos, reduza pela metade o dano do ataque que ativou o efeito e recupere 1d8 PV.",
+    "Entrosa": "Uma vez por cena, após uma conversa bem-sucedida, convença um grupo a aceitar uma trégua curta ou negociar. Não funciona contra quem não possa ser convencido pela situação.",
+    "Última Opção": "Uma vez por combate, escolha um aliado a até 6m. Ele recupera 2d8 PV e 1d4 PE; você perde 1d8 PV e não pode ficar abaixo de 1 PV.",
+    "Líder": "Uma vez por combate, escolha até três aliados que possam ouvir você. Cada um recebe +1d8 no próximo teste ou dano e pode se mover 3m imediatamente.",
+    "Ferreiro": "Uma vez por descanso, prepare uma arma aliada. No próximo combate, ela causa +2d8 de dano no primeiro ataque que acertar; ou prepare uma armadura para reduzir em 1d8+2 o próximo dano recebido.",
+    "Expert": "Uma vez por combate, depois de estudar um inimigo por uma rodada, revele uma fraqueza real. O próximo ataque seu e de até dois aliados contra ele causa +1d8 de dano.",
+    "Bixo do Mato": "Uma vez por cena em ambiente natural, encontre uma rota segura e prepare uma emboscada. Até três aliados recebem +1d8 no primeiro ataque ou teste de Furtividade relacionado.",
+    "8 ou 80": "Uma vez por cena, gaste 3 PE para testar uma hipótese importante. Receba uma resposta concreta sobre a pista; o mestre ainda pode apontar um custo, risco ou detalhe que ficou de fora.",
+    "Apostador do Apocalipse": "Uma vez por combate, antes de um ataque, aposte 3 PE. Se acertar, causa +3d8 de dano; se errar, sofre 1d8 de dano que não pode ser reduzido e perde os PE apostados. Deve ter os 3 PE disponíveis antes de declarar a aposta.",
+    "Mestre da Desgraça": "Uma vez por combate, escolha até dois inimigos que estejam participando do combate. Até o início do seu próximo turno, cada um sofre -2 no primeiro teste que fizer ou causa -1d8 no primeiro dano que causar. Cada inimigo é afetado por apenas uma dessas opções.",
+    "Maldição Ambulante": "Uma vez por combate, amaldiçoe um inimigo à sua escolha que esteja participando do combate por 2 rodadas. Uma vez por rodada, quando ele sofrer dano, o próximo ataque de um aliado contra ele recebe +1d8 de dano. Esse bônus só pode ocorrer uma vez por rodada e não acumula com outras habilidades desta trilha.",
+};
+for (const caminhos of Object.values(trilhasRPG)) {
+    for (const [nome, habilidades] of Object.entries(caminhos)) {
+        while (habilidades.length < 3) habilidades.push("Habilidade ainda não definida.");
+        habilidades[3] = habilidadesNivel4[nome] || `Uma vez por combate, use a técnica principal desta trilha com efeito aumentado: some +2d8 ao dano ou +1d8 a um teste ou efeito de suporte relacionado.`;
+    }
+}
+const custosTrilha = [10000, 20000, 30000, 40000];
 const trilhaPontos = nivel => Math.max(0, Math.min(3, Math.floor(nivel / 3)));
 
 function calcular(ficha) {
@@ -2503,11 +2530,11 @@ mostrarFicha = function(ficha, abaInicial="geral") {
     const bloco = document.createElement("section");
     bloco.className = "secao";
     bloco.innerHTML = `<h3>Árvore de trilha</h3><p><strong>Arma personalizada:</strong> ${escaparHTML(ficha.armeiro?.nome || "Não definida")} · Dano-base ${escaparHTML(ficha.armeiro?.dano || "1d8")} · Ajuste ${escaparHTML(ficha.armeiro?.ajuste || "nenhum")} ${Number(ficha.armeiro?.valor)||0}</p>
-      <p>Escolha um caminho. A escolha é permanente. Cada etapa custa 20.000 XP e desbloqueia uma habilidade nova. O XP é compartilhado com a progressão de nível: investir na trilha significa abrir mão temporariamente de parte do progresso de nível.</p>
-      ${escolhida ? `<p><strong>Caminho:</strong> ${escaparHTML(escolhida)} · <strong>Habilidades:</strong> ${arvore.nivel||0}/3</p>` : `<p>Escolha uma das três trilhas da sua classe:</p><div class="grade">${Object.entries(classeTrilhas).map(([nome,skills])=>`<div class="ficha-bloco"><h4>${escaparHTML(nome)}</h4><p>${escaparHTML(skills[0])}</p><button data-trilha="${escaparHTML(nome)}">Escolher caminho</button></div>`).join("")}</div>`}
-      ${escolhida ? `<ol>${(classeTrilhas[escolhida]||[]).map((desc,i)=>`<li>${escaparHTML(desc)} ${i<(arvore.nivel||0)?"<strong>(Desbloqueada)</strong>":""}</li>`).join("")}</ol>
-      ${Number(arvore.nivel||0)<3?`<button id="upar-trilha">Desbloquear habilidade (20.000 XP)</button>`:"<p>Árvore concluída!</p>"}
-      <button id="reset-trilha" class="secundario">Reiniciar escolha (sem reembolso)</button>`:""}`;
+      <p>Escolha uma trilha da sua classe. Você desbloqueia uma habilidade por nível. A escolha não pode ser trocada sem reiniciar a trilha.</p>
+      ${escolhida ? `<p><strong>Trilha:</strong> ${escaparHTML(escolhida)} <span>·</span> <strong>Nível ${arvore.nivel||0}/4</strong></p>` : `<p>Trilhas disponíveis para ${escaparHTML(ficha.classe)}:</p><div class="grade">${Object.entries(classeTrilhas).map(([nome,skills])=>`<div class="ficha-bloco"><h4>${escaparHTML(nome)}</h4><p>${escaparHTML(skills[0])}</p><button data-trilha="${escaparHTML(nome)}">Escolher trilha</button></div>`).join("")}</div>`}
+      ${escolhida ? `<div class="grade niveis-trilha">${(classeTrilhas[escolhida]||[]).map((desc,i)=>{const n=i+1, liberada=n<=(Number(arvore.nivel)||0), custo=[10000,20000,30000,40000][i];return `<article class="ficha-bloco nivel-trilha ${liberada?'desbloqueado':'bloqueado'}"><h4>Nível ${n} ${liberada?'— Desbloqueado':'— Bloqueado'}</h4><p class="custo-xp">${custo.toLocaleString('pt-BR')} XP</p><p>${escaparHTML(desc)}</p></article>`}).join("")}</div>
+      ${Number(arvore.nivel||0)<4?`<p>XP disponível: <strong>${(Number(ficha.xp)||0).toLocaleString("pt-BR")}</strong></p><button id="upar-trilha">Desbloquear nível ${Number(arvore.nivel||0)+1} (${[10000,20000,30000,40000][Number(arvore.nivel)||0].toLocaleString("pt-BR")} XP)</button>`:`<p>Você desbloqueou todas as habilidades desta trilha.</p>`}
+      <button id="reset-trilha" class="secundario">Reiniciar trilha (sem reembolso de XP)</button>`:""}`;
     const alvo = conteudo.querySelector(".ficha-bloco")?.parentElement || conteudo;
     alvo.appendChild(bloco);
     bloco.querySelectorAll("[data-trilha]").forEach(b=>b.onclick=()=>{
@@ -2516,9 +2543,9 @@ mostrarFicha = function(ficha, abaInicial="geral") {
     });
     const upar=bloco.querySelector("#upar-trilha");
     if(upar) upar.onclick=()=>{
-      const nivel=Number(ficha.arvore.nivel)||0, custo=20000;
-      if(nivel>=3){return;}
-      if((Number(ficha.xp)||0)<custo){alert(`Você precisa de ${custo.toLocaleString("pt-BR")} XP acumulados para comprar esta habilidade.`);return;}
+      const nivel=Number(ficha.arvore.nivel)||0, custo=[10000,20000,30000,40000][nivel] || 40000;
+      if(nivel>=4){return;}
+      if((Number(ficha.xp)||0)<custo){alert(`Você precisa de ${custo.toLocaleString("pt-BR")} XP para desbloquear o próximo nível da trilha.`);return;}
       ficha.xp-=custo; ficha.arvore.nivel=nivel+1; ficha.arvore.compras=[...(ficha.arvore.compras||[]),nivel+1];
       salvarPersonagem(ficha); mostrarFicha(ficha);
     };
