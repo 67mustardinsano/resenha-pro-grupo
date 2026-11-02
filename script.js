@@ -49,51 +49,45 @@ const pericias = [
 const classes = {
     Combatente: {
         pv: 16,
-        pe: 4,
+        pe: 5,
         pvPorNivel: 5,
-        pePorNivel: 1,
+        pePorNivel: 2,
         habilidade: "Uma vez por combate, cause +1d4 de dano. Custa 2 PE."
     },
 
     Conjurador: {
         pv: 10,
-        pe: 8,
+        pe: 9,
         pvPorNivel: 3,
-        pePorNivel: 3,
+        pePorNivel: 4,
         habilidade: "Especialista em poderes e ataques mágicos."
     },
 
     Trapaceiro: {
         pv: 12,
-        pe: 6,
+        pe: 7,
         pvPorNivel: 4,
-        pePorNivel: 2,
+        pePorNivel: 3,
         habilidade: "Recebe vantagem em Furtividade ou Enganação."
     },
 
     Suporte: {
         pv: 12,
-        pe: 7,
+        pe: 8,
         pvPorNivel: 4,
-        pePorNivel: 2,
+        pePorNivel: 3,
         habilidade: "Pode recuperar 1d6 PV de um aliado por 2 PE."
     },
 
     Investigador: {
         pv: 12,
-        pe: 6,
+        pe: 7,
         pvPorNivel: 4,
-        pePorNivel: 2,
+        pePorNivel: 3,
         habilidade: "Pode fazer uma pergunta ao mestre sobre uma pista."
     },
 
-    "Agente do Caos": {
-        pv: 14,
-        pe: 7,
-        pvPorNivel: 4,
-        pePorNivel: 2,
-        habilidade: "Gastando 2 PE, altere o atributo utilizado em um teste por CENA."
-    }
+
 };
 
 
@@ -253,36 +247,7 @@ const progressaoClasses = {
         }
     },
 
-    "Agente do Caos": {
-        3: {
-            nome: "Imprevisível",
-            descricao: "Uma vez por combate, repita um teste que acabou de falhar. 3 PE."
-        },
-        5: {
-            nome: "Caos Controlado",
-            descricao: "Uma vez por combate, adicione +1d6 ao dano ou reduza o dano recebido em 1d6."
-        },
-        8: {
-            nome: "Virada Impossível",
-            descricao: "Uma vez por combate, transforme uma falha por pouco em sucesso, a critério do mestre."
-        },
-        10: {
-            nome: "Aposta Alta",
-            descricao: "Gaste 3 PE para receber +2 em um teste; se falhar, sofra 1d6 de dano."
-        },
-        13: {
-            nome: "Efeito Dominó",
-            descricao: "Uma vez por combate, depois de um sucesso importante, conceda +1 no teste de um aliado."
-        },
-        15: {
-            nome: "Risco Calculado",
-            descricao: "Uma vez por combate, repita um teste e some +2 ao novo resultado."
-        },
-        20: {
-            nome: "Caos Absoluto",
-            descricao: "Gaste 9 de PE para recuperar o PV o mesmo tanto que você tirou uma rerrolagem."
-        }
-    }
+
 };
 
 
@@ -498,6 +463,8 @@ function normalizarPersonagem(ficha) {
     ficha.id ||= idNovo();
     ficha.nome ||= "Personagem sem nome";
 
+    if (ficha.classe === "Agente do Caos") ficha.classe = "Investigador";
+
     if (!classes[ficha.classe]) {
         ficha.classe = "Combatente";
     }
@@ -651,6 +618,8 @@ function adicionarXP(ficha, quantidade) {
     };
 }
 
+
+function capacidadeInventario(ficha) { return 5 + Number(ficha.atributos?.FOR || 0) * 2; }
 
 function calcular(ficha) {
     const classe = classes[ficha.classe] || classes.Combatente;
@@ -1226,7 +1195,8 @@ function mostrarFicha(ficha, abaInicial = "geral") {
                     <p><strong>Nível:</strong> ${ficha.nivel}</p>
                     <p><strong>Elemento:</strong> ${escaparHTML(ficha.elemento)}</p>
                     <p><strong>PV:</strong> ${ficha.pvAtual}/${atualStats.pv}</p>
-                    <p><strong>PE:</strong> ${ficha.peAtual}/${atualStats.pe}</p>
+                    <p><strong>PE (Pontos de Esperança):</strong> ${ficha.peAtual}/${atualStats.pe}</p>
+                    <p class="aviso">Dano emocional intenso pode reduzir PE. Regra sugerida: o mestre aplica 1d4 PE de perda conforme a gravidade.</p>
                     <div class="acoes">
                         <button data-recurso="pv" data-valor="-1">− 1 PV</button>
                         <button data-recurso="pv" data-valor="1">+ 1 PV</button>
@@ -1419,7 +1389,7 @@ function mostrarFicha(ficha, abaInicial = "geral") {
                                     ${escaparHTML(poder.nome)} — Nível ${poder.nivel}
                                 </strong>
                                 <p>Elemento: ${escaparHTML(poder.elemento)}</p>
-                                <p>Dano: ${poder.nivel}d6 · Custo: ${poder.nivel * 2} PE</p>
+                                <p>Dano: ${poder.nivel}d6 + ESP (${Number(ficha.atributos.ESP || 0)}) · Custo: ${poder.nivel * 2 + 1} PE</p>
                             </div>
 
                             <div class="acoes">
@@ -1438,7 +1408,7 @@ function mostrarFicha(ficha, abaInicial = "geral") {
                 lista.querySelectorAll("[data-usar]").forEach(botao => {
                     botao.onclick = () => {
                         const poder = ficha.poderes[Number(botao.dataset.usar)];
-                        const custo = poder.nivel * 2;
+                        const custo = poder.nivel * 2 + 1;
 
                         if (ficha.peAtual < custo) {
                             alert("Você não tem PE suficientes!");
@@ -1447,7 +1417,7 @@ function mostrarFicha(ficha, abaInicial = "geral") {
 
                         ficha.peAtual -= custo;
 
-                        const dano = rolarDados(`${poder.nivel}d6`);
+                        const dano = rolarDados(`${poder.nivel}d6`) + Number(ficha.atributos.ESP || 0);
 
                         salvarPersonagem(ficha);
 
@@ -1526,6 +1496,7 @@ function mostrarFicha(ficha, abaInicial = "geral") {
         if (aba === "itens") {
             area.innerHTML = `
                 <h3>Inventário</h3>
+                <p class="aviso">Capacidade: ${ficha.itens.length}/${capacidadeInventario(ficha)} itens. Sua Força aumenta o quanto você consegue carregar (5 + 2 por ponto de FOR).</p>
 
                 <div class="campo">
                     <label for="novo-item">Item conhecido</label>
@@ -1597,6 +1568,7 @@ function mostrarFicha(ficha, abaInicial = "geral") {
             }
 
             document.getElementById("adicionar-item").onclick = () => {
+                if (ficha.itens.length >= capacidadeInventario(ficha)) { alert("Inventário cheio! Aumente sua Força ou remova um item."); return; }
                 ficha.itens.push(document.getElementById("novo-item").value);
 
                 salvarPersonagem(ficha);
@@ -1611,6 +1583,7 @@ function mostrarFicha(ficha, abaInicial = "geral") {
                     return;
                 }
 
+                if (ficha.itens.length >= capacidadeInventario(ficha)) { alert("Inventário cheio! Aumente sua Força ou remova um item."); return; }
                 ficha.itens.push(nome);
                 salvarPersonagem(ficha);
                 mostrarFicha(ficha, "itens");
@@ -2320,7 +2293,7 @@ function mostrarRegras() {
             <p><strong>TRAPACEIRO:</strong> utiliza as fraquezas e a desconcentração do inimigo contra ele mesmo.</p>
             <p><strong>SUPORTE:</strong> atua na linha de trás; ajuda com BUFFs, recuperação de PV e proteção dos aliados. Não é focado em causar dano direto.</p>
             <p><strong>INVESTIGADOR:</strong> atua na linha de trás e fornece informações úteis. Analise BEM os inimigos ao redor e identifique padrões, fraquezas e riscos.</p>
-            <p><strong>AGENTE DO CAOS:</strong> faz de tudo um pouco e aproveita brechas para concretizar o impossível. É versátil, mas seus efeitos extraordinários devem ter limites definidos pelo mestre.</p>
+            
         </section>
 
         <section class="secao">
@@ -2338,10 +2311,10 @@ function mostrarRegras() {
         </section>
 
         <section class="secao">
-            <h3>PV e PE por nível</h3>
+            <h3>PV e Pontos de Esperança por nível</h3>
             <p><strong>Combatente:</strong> +5 PV e +1 PE por nível.</p>
             <p><strong>Conjurador:</strong> +3 PV e +3 PE por nível.</p>
-            <p><strong>Trapaceiro, Suporte, Investigador e Agente do Caos:</strong> +4 PV e +2 PE por nível.</p>
+            <p><strong>Trapaceiro, Suporte e Investigador:</strong> +4 PV e +3 PE por nível.</p>
             <p>PV e PE máximos também consideram atributos e itens equipados.</p>
         </section>
 
@@ -2368,14 +2341,14 @@ function mostrarRegras() {
         </section>
 
         <section class="secao">
-            <h3>Magia e Determinação</h3>
-            <p>O dano mágico base é sempre calculado em dados de seis lados (d6), conforme o nível da magia. O nível máximo tradicional é 4.</p>
-            <p><strong>Nível 1:</strong> 1d6 de dano; <strong>Nível 2:</strong> 2d6; <strong>Nível 3:</strong> 3d6; <strong>Nível 4:</strong> 4d6 (máximo).</p>
+            <h3>Magia, Determinação e PE</h3>
+            <p>O dano mágico é calculado em dados de seis lados (d6), conforme o nível da magia, somado ao atributo Espírito do conjurador. O nível máximo tradicional é 4.</p>
+            <p><strong>Nível 1:</strong> 1d6 + Espírito; <strong>Nível 2:</strong> 2d6 + Espírito; <strong>Nível 3:</strong> 3d6 + Espírito; <strong>Nível 4:</strong> 4d6 + Espírito (máximo).</p>
             <p>Para elevar uma magia ao próximo nível, é necessário gastar <strong>3 pontos de Determinação</strong> por melhoria. Os pontos são um recurso de progressão distinto dos PE gastos ao conjurar.</p>
             <p>Ao subir de nível, o <strong>Conjurador recebe 3 pontos de Determinação</strong>; todas as outras classes recebem 1 ponto.</p>
             <p>É permitido conhecer uma magia em nível inferior ao nível máximo já alcançado: por exemplo, ter uma magia de nível 1 mesmo podendo aprimorá-la até o nível 3.</p>
-            <p>Magias de nível 1 custam 2 PE; nível 2 custa 4 PE; nível 3 custa 6 PE; nível 4 custa 8 PE.</p>
-            <p><strong>Magias PRIMORDIAIS:</strong> custam 16 PE e não podem ser obtidas por meios tradicionais. Seu acesso depende de eventos, itens ou decisão especial do mestre.</p>
+            <p>Magias de nível 1 custam 3 PE; nível 2 custa 5 PE; nível 3 custa 7 PE; nível 4 custa 9 PE.</p>
+            <p><strong>Magias PRIMORDIAIS:</strong> custam 17 PE e não podem ser obtidas por meios tradicionais. Seu acesso depende de eventos, itens ou decisão especial do mestre.</p>
         </section>
 
         <section class="secao">
@@ -2389,10 +2362,27 @@ function mostrarRegras() {
             <h3>Rebalanceamento e limites</h3>
             <p>O Combatente é resistente, mas seus bônus de dano devem ser pontuais; evite acumular vários bônus de dano sem custo no mesmo turno.</p>
             <p>O Conjurador evolui magias com Determinação, mas precisa administrar PE para conjurá-las. O nível 4 é o limite normal e magias Primordiais são exceções raras.</p>
-            <p>O Suporte deve priorizar cura, buffs e proteção; o Investigador deve criar vantagem tática com informações, sem resolver automaticamente todos os desafios. O Agente do Caos pode improvisar soluções incomuns, mas o mestre define custo, risco e alcance para não superar todas as outras classes.</p>
+            <p>O Suporte deve priorizar cura, buffs e proteção; o Investigador deve criar vantagem tática com informações, sem resolver automaticamente todos os desafios. </p>
             <p>Fraquezas e resistências elementais não se acumulam entre si: aplique apenas o modificador final pertinente ao alvo.</p>
         </section>
 
+        <section class="secao">
+            <h3>Pontos de Esperança (PE)</h3>
+            <p>PE representam energia, determinação e esperança. São gastos para habilidades, poderes e técnicas. Dano emocional muito intenso também reduz PE: como regra-base, o mestre pode aplicar perda de 1d4 PE conforme a gravidade, sem permitir valores abaixo de 0.</p>
+            <p>Os máximos consideram classe, nível, Espírito e itens. Ao subir de nível, o personagem recebe a quantidade de PE por nível indicada em sua classe.</p>
+        </section>
+        <section class="secao">
+            <h3>Manobras de combate</h3>
+            <p>Personagens focados em combate podem tentar manobras no lugar de um ataque comum. O mestre pode pedir um teste resistido de Força/Luta contra o alvo.</p>
+            <ul>
+              <li><strong>Agarrar:</strong> em caso de sucesso, mantém o alvo preso. O alvo precisa vencer um teste resistido para escapar; enquanto estiver agarrado, não pode se afastar.</li>
+              <li><strong>Puxar:</strong> aproxima o alvo ou o desloca para uma posição adjacente.</li>
+              <li><strong>Arremessar:</strong> desloca o alvo e pode derrubá-lo; o mestre define dano leve conforme o cenário.</li>
+              <li><strong>Roubar:</strong> tenta tomar um item que esteja acessível ou sendo segurado pelo alvo.</li>
+              <li><strong>Chute nas bolas:</strong> manobra arriscada; em sucesso, causa dano e pode impor desvantagem/atordoamento breve, conforme o alvo e a situação.</li>
+            </ul>
+            <p>Manobras exigem uma ação e não são sucesso automático. O mestre define dificuldade, alcance e consequências apropriadas.</p>
+        </section>
         <section class="secao">
             <h3>Desbloqueios</h3>
             <p>As classes recebem habilidades nos níveis 3, 5, 8, 10, 13, 15 e 20.</p>
@@ -2435,11 +2425,7 @@ const trilhasRPG = {
         "Bixo do Mato": ["Recebe +2 em Medicina e Sobrevivência em ambientes naturais. Fora de combate, pode estabilizar um aliado sem teste se tiver ferramentas adequadas.", "Pode gastar uma ação por rodada para estudar o terreno. Após 1 rodada, identifica uma rota segura, cobertura, esconderijo ou ponto plausível de emboscada; após 2 rodadas, também aponta o risco mais provável do local.", "Uma vez por cena, prepara o terreno para o grupo: até três aliados recebem +2 em Furtividade ou no primeiro teste para evitar uma emboscada. Em ambiente natural, você também pode encontrar recursos básicos se houver tempo."],
         "8 ou 80": ["Uma vez por cena, gaste 1 PE para formular duas hipóteses sobre uma pista. O mestre informa qual parece mais plausível, sem garantir que esteja completa.", "Uma vez por rodada, gaste 2 PE para escolher uma entre três abordagens investigativas. Você recebe uma pista útil, mas pode haver custo de tempo, exposição ou recurso.", "Uma vez por cena, gaste 3 PE para testar uma hipótese decisiva. Recebe uma resposta concreta e útil, mas o mestre pode incluir uma complicação realista; não pode revelar automaticamente toda a solução do mistério." ]
     },
-    "Agente do Caos": {
-        "Imprevisível": ["Uma vez por rodada, depois de rolar um teste, gaste 1 PE para somar ou subtrair 1d4 do resultado.", "Uma vez por combate, gaste 2 PE para substituir o resultado de um teste próprio por 10 + o atributo usado. Deve declarar antes de saber se a consequência será favorável.", "Uma vez por combate, declare uma aposta antes de rolar: se tiver sucesso, recebe +2 no teste ou +2d8 de dano; se falhar, sofre 1d6 de dano e perde 2 PE."],
-        "Anomalia": ["Escolha dois atributos. Uma vez por rodada, pode usar um no lugar do outro em um teste plausível, explicando a abordagem incomum.", "Uma vez por rodada, gaste 2 PE para reproduzir um efeito simples e não-danoso que tenha presenciado na cena. Não copia habilidades únicas, rituais completos ou poderes de chefe.", "Uma vez por combate, distorça uma regra pequena por uma rodada, com aprovação do mestre: por exemplo, atravessar uma abertura impossível ou agir em condição incomum. Não anula ataques, não garante sucessos e não altera regras centrais."],
-        "Sobrevivente do Impossível": ["Uma vez por rodada, quando sofrer dano, reduza-o em 1d4 (mínimo 1 de dano recebido).", "Enquanto estiver com metade ou menos dos PV, recebe +2 Defesa contra o próximo ataque que sofrer a cada rodada.", "Uma vez por combate, transforme uma falha em um sucesso parcial, com custo ou consequência definida pelo mestre. Você sofre 1d6 de dano que não pode ser reduzido." ]
-    }
+
 };
 // Quarta habilidade de cada trilha. Cada uma segue o estilo daquela trilha.
 const habilidadesNivel4 = {
@@ -2532,7 +2518,7 @@ mostrarFicha = function(ficha, abaInicial="geral") {
     bloco.innerHTML = `<h3>Árvore de trilha</h3><p><strong>Arma personalizada:</strong> ${escaparHTML(ficha.armeiro?.nome || "Não definida")} · Dano-base ${escaparHTML(ficha.armeiro?.dano || "1d8")} · Ajuste ${escaparHTML(ficha.armeiro?.ajuste || "nenhum")} ${Number(ficha.armeiro?.valor)||0}</p>
       <p>Escolha uma trilha da sua classe. Você desbloqueia uma habilidade por nível. A escolha não pode ser trocada sem reiniciar a trilha.</p>
       ${escolhida ? `<p><strong>Trilha:</strong> ${escaparHTML(escolhida)} <span>·</span> <strong>Nível ${arvore.nivel||0}/4</strong></p>` : `<p>Trilhas disponíveis para ${escaparHTML(ficha.classe)}:</p><div class="grade">${Object.entries(classeTrilhas).map(([nome,skills])=>`<div class="ficha-bloco"><h4>${escaparHTML(nome)}</h4><p>${escaparHTML(skills[0])}</p><button data-trilha="${escaparHTML(nome)}">Escolher trilha</button></div>`).join("")}</div>`}
-      ${escolhida ? `<div class="grade niveis-trilha">${(classeTrilhas[escolhida]||[]).map((desc,i)=>{const n=i+1, liberada=n<=(Number(arvore.nivel)||0), custo=[10000,20000,30000,40000][i];return `<article class="ficha-bloco nivel-trilha ${liberada?'desbloqueado':'bloqueado'}"><h4>Nível ${n} ${liberada?'— Desbloqueado':'— Bloqueado'}</h4><p class="custo-xp">${custo.toLocaleString('pt-BR')} XP</p><p>${escaparHTML(desc)}</p></article>`}).join("")}</div>
+      ${escolhida ? `<div class="grade niveis-trilha">${(classeTrilhas[escolhida]||[]).map((desc,i)=>{const n=i+1, liberada=n<=(Number(arvore.nivel)||0), custo=[10000,20000,30000,40000][i];return `<article class="ficha-bloco nivel-trilha ${liberada?'desbloqueado':'bloqueado'}"><h4>Nível ${n} ${liberada?'— Desbloqueado':'— Bloqueado'}</h4><p class="custo-xp">${custo.toLocaleString('pt-BR')} XP</p><p>${escaparHTML(desc)}<br><strong>${/\d+\s*PE/i.test(desc) ? "Custo de PE indicado acima." : "Custo: 0 PE (gratuito)."}</strong></p></article>`}).join("")}</div>
       ${Number(arvore.nivel||0)<4?`<p>XP disponível: <strong>${(Number(ficha.xp)||0).toLocaleString("pt-BR")}</strong></p><button id="upar-trilha">Desbloquear nível ${Number(arvore.nivel||0)+1} (${[10000,20000,30000,40000][Number(arvore.nivel)||0].toLocaleString("pt-BR")} XP)</button>`:`<p>Você desbloqueou todas as habilidades desta trilha.</p>`}
       <button id="reset-trilha" class="secundario">Reiniciar trilha (sem reembolso de XP)</button>`:""}`;
     const alvo = conteudo.querySelector(".ficha-bloco")?.parentElement || conteudo;
