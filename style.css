@@ -438,3 +438,170 @@ button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-
   .item-linha button, .poder-linha button { width: 100%; }
   .grade { grid-template-columns: 1fr !important; }
 }
+
+
+/* =========================================================
+   IDENTIDADE VISUAL NEON — PRETO, VERDE-LIMA E GRAFITE
+   ========================================================= */
+:root {
+  --fundo:#070a08;
+  --painel:#101612;
+  --painel-escuro:#090e0b;
+  --borda:#26392d;
+  --texto:#e9f5ec;
+  --texto-fraco:#91a498;
+  --azul:#123d25;
+  --azul-claro:#9cff35;
+  --verde:#a8ff45;
+  --vermelho:#ff5d68;
+  --neon:#a8ff35;
+  --neon-suave:rgba(168,255,53,.13);
+  --painel-elevado:#141d17;
+}
+body {
+  background:
+    radial-gradient(ellipse at 50% -15%, rgba(102,255,45,.12), transparent 42%),
+    linear-gradient(135deg,#050806 0%,#0a100c 55%,#070a08 100%);
+  color:var(--texto);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+body::before {
+  content:""; position:fixed; inset:0; pointer-events:none; opacity:.12;
+  background-image:linear-gradient(rgba(168,255,53,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(168,255,53,.07) 1px,transparent 1px);
+  background-size:42px 42px; mask-image:linear-gradient(to bottom,black,transparent 85%);
+}
+header {
+  position:relative; overflow:hidden; padding:38px 20px 30px;
+  background:linear-gradient(120deg,#080d09,#111d13 55%,#080d09);
+  border-bottom:1px solid rgba(168,255,53,.35);
+  box-shadow:0 10px 45px rgba(0,0,0,.45);
+}
+header::before {
+  content:""; position:absolute; width:360px;height:180px;left:50%;top:-145px;transform:translateX(-50%);
+  background:var(--neon);filter:blur(100px);opacity:.22;
+}
+header h1 {
+  position:relative; color:#f1ffe7; font-size:clamp(34px,5vw,54px);
+  letter-spacing:.24em; text-shadow:0 0 24px rgba(168,255,53,.35);
+}
+header p {position:relative;color:#a8b9aa;letter-spacing:.05em}
+header::after {color:var(--neon);letter-spacing:.28em}
+main {
+  position:relative; width:min(1180px,94%); margin:34px auto;
+  padding:clamp(20px,3vw,38px); background:rgba(13,19,15,.94);
+  border:1px solid #26392d; border-radius:18px;
+  box-shadow:0 24px 80px rgba(0,0,0,.48),inset 0 1px rgba(255,255,255,.025);
+  backdrop-filter:blur(12px);
+}
+h2,h3,h4 {color:#f0ffe8}
+h2 {font-size:clamp(23px,3vw,31px);letter-spacing:-.03em}
+h3 {font-size:21px}
+main > p,.secao > p {color:var(--texto-fraco)}
+button {
+  padding:11px 17px; border:1px solid #a8ff35; border-radius:9px;
+  background:linear-gradient(135deg,#a8ff35,#70d91d); color:#0a1207;
+  font-weight:800; box-shadow:0 0 18px rgba(168,255,53,.12);
+  transition:transform .18s,border-color .18s,box-shadow .18s,filter .18s;
+}
+button:hover {background:linear-gradient(135deg,#c0ff70,#8bf52c);transform:translateY(-2px);box-shadow:0 7px 24px rgba(168,255,53,.2)}
+button.secundario {background:#17221a;color:#d9f5d0;border-color:#3c5a40}
+button.secundario:hover {background:#203322;border-color:var(--neon)}
+button.perigo {background:#35191b;color:#ffb9bd;border-color:#71383d;box-shadow:none}
+button.perigo:hover {background:#512126}
+input,select {
+  background:#080e0a;border:1px solid #2b4031;border-radius:9px;color:#e9f5ec;
+  padding:13px 14px;transition:border-color .18s,box-shadow .18s;
+}
+input:focus,select:focus {border-color:var(--neon);box-shadow:0 0 0 3px rgba(168,255,53,.1)}
+.campo label,.rotulo {color:#a8b9aa;font-weight:650;letter-spacing:.015em}
+.secao {
+  margin-top:24px;padding:23px;border:1px solid #26392d;border-radius:15px;
+  background:linear-gradient(145deg,rgba(20,29,23,.96),rgba(11,16,12,.96));
+  box-shadow:0 10px 28px rgba(0,0,0,.16);
+}
+.ficha-bloco,.atributo,.estatistica,.item-linha,.poder-linha {
+  background:#0a110c;border:1px solid #26392d;border-radius:12px;
+}
+.atributo {transition:border-color .2s,transform .2s}
+.atributo:hover {border-color:#638c3d;transform:translateY(-2px)}
+.atributo label {color:#dff3d7}
+.estatistica strong,.contador {color:var(--neon)}
+.etiqueta,.elemento-etiqueta {background:#17251a;border:1px solid #38533a;color:#caffaa}
+.abas {gap:9px;border-color:#26392d}
+.abas button {background:#0a110c;border-color:#2b4031;color:#b9cbbd}
+.abas button.ativa {background:var(--neon);border-color:var(--neon);color:#0a1207;box-shadow:0 0 20px rgba(168,255,53,.2)}
+.pericia {background:#0a110c;border-color:#26392d}
+.pericia:has(input:checked) {background:#17251a;border-color:var(--neon)}
+.pericia input {accent-color:var(--neon)}
+.barra-progresso {background:#050906}
+.barra-progresso div {background:linear-gradient(90deg,#65d51c,#c0ff62);box-shadow:0 0 12px rgba(168,255,53,.5)}
+.aviso {color:#baff7a}
+footer {color:#66776b}
+
+/* Inventário */
+.inventario-topo {
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(230px,310px);
+  gap:22px;align-items:center;margin:4px 0 24px;
+}
+.microtitulo {font-size:10px;font-weight:900;letter-spacing:.24em;color:var(--neon)}
+.inventario-topo h3 {font-size:30px;margin:7px 0}
+.inventario-topo p {color:var(--texto-fraco);margin:0}
+.peso-card {
+  padding:18px 20px;border:1px solid rgba(168,255,53,.35);border-radius:14px;
+  background:linear-gradient(135deg,rgba(168,255,53,.1),rgba(10,17,12,.9));
+  box-shadow:inset 0 0 28px rgba(168,255,53,.035);
+}
+.peso-card>span {display:block;font-size:10px;letter-spacing:.2em;color:#a9bdac;font-weight:800}
+.peso-card strong {display:block;margin:6px 0 9px;font-size:28px;color:var(--neon);font-variant-numeric:tabular-nums}
+.peso-card strong small {font-size:14px;color:#8ea18f}
+.peso-card>small {color:#9bad9e;font-size:11px}
+.barra-peso {height:7px;background:#263329;border-radius:20px;overflow:hidden;margin:10px 0}
+.barra-peso div {height:100%;border-radius:20px;background:linear-gradient(90deg,#65d51c,#c0ff62);box-shadow:0 0 12px rgba(168,255,53,.45)}
+.inventario-adicionar {
+  display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:end;
+  padding:17px;background:#0a110c;border:1px solid #26392d;border-radius:13px;
+}
+.inventario-adicionar .campo {margin:0}
+.inventario-adicionar button {white-space:nowrap;min-height:46px}
+.inventario-personalizado {
+  margin-top:14px;padding:17px 18px;background:rgba(18,27,20,.72);
+  border:1px dashed #3a573b;border-radius:13px;
+}
+.inventario-personalizado h4 {margin:0 0 5px}
+.inventario-personalizado .campo {margin:12px 0}
+.inventario-lista-cabecalho {display:flex;justify-content:space-between;gap:12px;align-items:center;margin:27px 0 12px}
+.inventario-lista-cabecalho h4 {margin:0;font-size:16px}
+.inventario-lista-cabecalho h4 span {display:inline-grid;place-items:center;min-width:24px;height:24px;margin-left:6px;padding:0 6px;border-radius:20px;background:var(--neon-suave);color:var(--neon);font-size:12px}
+.inventario-lista-cabecalho small {color:#819487}
+.item-linha.inventario-item {
+  display:grid;grid-template-columns:42px minmax(0,1fr) auto auto;align-items:center;
+  gap:14px;margin:9px 0;padding:13px 15px;background:linear-gradient(100deg,#111a13,#0a100c);
+  border-color:#26392d;
+}
+.item-linha.inventario-item:hover {border-color:#709d42;box-shadow:0 5px 20px rgba(0,0,0,.2)}
+.item-icone {display:grid;place-items:center;width:40px;height:40px;border-radius:10px;background:rgba(168,255,53,.1);color:var(--neon);font-size:21px}
+.item-info {min-width:0}
+.item-info strong {color:#e9f5ec}
+.item-info p {margin:4px 0 0;color:#91a498;font-size:12px;line-height:1.4}
+.item-peso {white-space:nowrap;color:var(--neon);font-weight:850;font-variant-numeric:tabular-nums}
+.item-peso small {color:#91a498;font-size:10px;font-weight:600}
+.item-linha.inventario-item button {padding:8px 12px;font-size:12px}
+.inventario-vazio {display:grid;justify-items:center;text-align:center;padding:35px 15px;border:1px dashed #304434;border-radius:13px;color:#8da090}
+.inventario-vazio span {font-size:30px;color:var(--neon);margin-bottom:8px}
+.inventario-vazio strong {color:#d9ead9}
+.inventario-vazio p {margin:5px 0 0;font-size:13px}
+@media(max-width:700px) {
+ .inventario-topo {grid-template-columns:1fr}
+ .inventario-adicionar {grid-template-columns:1fr}
+ .inventario-adicionar button {width:100%}
+ .inventario-lista-cabecalho {align-items:flex-start;flex-direction:column}
+ .item-linha.inventario-item {grid-template-columns:38px minmax(0,1fr) auto}
+ .item-linha.inventario-item button {grid-column:2 / -1;width:100%}
+}
+@media(prefers-reduced-motion:reduce) {
+ *,*::before,*::after {scroll-behavior:auto!important;transition:none!important;animation:none!important}
+}
+
+/* Identidade e detalhes coloridos dos itens */
+header .frase-efeito { margin-top: 8px; color: #b7c9ba; font-style: italic; letter-spacing: .04em; }
+.item-icone { color: var(--item-cor, var(--neon)); background: color-mix(in srgb, var(--item-cor, var(--neon)) 16%, transparent); border: 1px solid color-mix(in srgb, var(--item-cor, var(--neon)) 35%, transparent); }

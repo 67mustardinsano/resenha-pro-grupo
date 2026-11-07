@@ -311,66 +311,38 @@ const elementos = {
     Metal: {
         fortes: ["Gelo", "Fadas"],
         fracos: ["Fogo", "Terrestre", "Elétrico"]
-    }
+    },
+    Sideral: { fortes: ["Sol", "Psíquico"], fracos: ["Veneno", "Guerra"] },
+    Sol: { fortes: ["Gelo", "Veneno"], fracos: ["Sideral", "Guerra"] },
+    Guerra: { fortes: ["Sideral", "Sol"], fracos: ["Veneno", "Água"] },
+    Veneno: { fortes: ["Sideral", "Guerra"], fracos: ["Sol", "Fogo"] }
 };
 
 
 
 const catalogoItens = {
-    "Armadura Reforçada": {
-        descricao: "+2 Defesa",
-        defesa: 2
-    },
-    "Escudo do Guardião": {
-        descricao: "+2 Defesa; ocupa uma mão e é focado em proteção.",
-        defesa: 2
-    },
-    "Peitoral de Titã": {
-        descricao: "+3 Defesa; armadura pesada.",
-        defesa: 3
-    },
-    "Manto das Sombras": {
-        descricao: "+1 Defesa e +1 em testes de Furtividade.",
-        defesa: 1
-    },
-    "Anel de Aço": {
-        descricao: "+1 Defesa.",
-        defesa: 1
-    },
-    "Núcleo Vital": {
-        descricao: "+4 PV máximos",
-        pv: 4
-    },
-    "Cristal de Energia": {
-        descricao: "+3 PE máximos",
-        pe: 3
-    },
-    "Lâmina de Ferro": {
-        descricao: "+2 dano físico",
-        danoFisico: 2
-    },
-    "Botas Leves": {
-        descricao: "+1 Agilidade e +1 Defesa",
-        agi: 1,
-        defesa: 1
-    },
-    "Amuleto Vital": {
-        descricao: "+2 PV máximos",
-        pv: 2
-    },
-    "Essência Elemental": {
-        descricao: "Permite melhorar um poder além do limite do nível",
-        essencia: true
-    },
-    "Orbe d'O Primeiro": {
-        descricao: "Consumível: concede +1 ponto de Determinação.",
-        determinacao: 1,
-        consumivel: true
-    },
-    "Espírito d'O Primeiro": {
-        descricao: "Relíquia rara: permite ao personagem obter um elemento adicional, além do elemento inicial.",
-        elementoAdicional: true
-    }
+    "ITEM DE FABRICAÇÃO": { descricao: "Material utilizado na criação e aprimoramento de equipamentos.", peso: 1 },
+    "Arco": { descricao: "Arma de longo alcance.", peso: 2 },
+    "Espada": { descricao: "Arma corpo a corpo.", peso: 2 },
+    "Crossbow": { descricao: "Besta de disparo.", peso: 2.5 },
+    "Flecha Pesada": { descricao: "Munição pesada para armas de disparo.", peso: 1 },
+    "Adaga": { descricao: "Arma curta e leve.", peso: 0.5 },
+    "Granada": { descricao: "Explosivo de uso único.", peso: 0.5 },
+    "Jaqueta do Jacket": { descricao: "Casaco de aviação que permite guardar mais coisas. Presente de Jacket; possui alguns amuletos dele.", peso: 0, cor: "#ff8a24" },
+    "Conto de Fadas": { descricao: "Livro de histórias infantis. Ao gastar 2 PE, recebe +1 em testes de Espírito até o fim da cena.", peso: 1.5, cor: "#f28acb" },
+    "Cristal do Tânatos": { descricao: "Cristal misterioso.", peso: 0, cor: "#9a9a9a" },
+    "Biscoitos": { descricao: "Biscoitos de morango com pingos de chocolate. Recuperam 5 PV ao serem devorados. Existem 8; feitos por Uri.", peso: 0.2, cor: "#a66be8", quantidade: 8 },
+    "Katana Eletrizante": { descricao: "1d4 de dano. Gaste 1 PE para causar +1d6 de eletricidade; você também recebe esse dano elétrico. Dano: 1d4 + 1d6 + Força. Crítico com 19–20.", peso: 1, cor: "#f2d84a" },
+    "Tridente": { descricao: "1d6 + Força em combate corpo a corpo; 2d6 se arremessado. Com Magia de Água nível 2, pode puxá-lo de volta. Feito por Pérola.", peso: 3 },
+    "Patins Flamejantes": { descricao: "Deixam um rastro flamejante. Gaste 2 PE para receber +2 em testes de Agilidade por rodada. Feitos por Loki.", peso: 0, cor: "#ff6428" },
+    "Braceletes do Céu": { descricao: "+1 em testes de Ocultismo. Feitos por Freya.", peso: 2, cor: "#f4f4f4" },
+    "Punho Mortal": { descricao: "Gaste 4 PE para dobrar o dano de ataques corpo a corpo (exceto katana e similares) durante uma cena. Você sofre recuo igual à metade do dano causado; conta para crítico.", peso: 3, cor: "#95613d" },
+    "Balestra do Nunca": { descricao: "Causa 1d10+2 de dano. Possui 5 munições e é adornada com símbolos de dragões.", peso: 3, cor: "#4c8ee8" },
+    "Armadura Gelada": { descricao: "+3 na Defesa (CD).", peso: 3, cor: "#63dce8" },
+    "Manto do Inferno": { descricao: "Gaste 2 PE para receber +4 em testes de Furtividade durante uma cena. Feito por Syndor.", peso: 0.5, cor: "#252525" },
+    "Braceletes da Vida": { descricao: "Braceletes de energia vital.", peso: 2, cor: "#bfc4cc" },
+    "Braceletes de Armadura": { descricao: "Concedem Defesa. Uma vez por rodada, gaste seu contra-ataque para reduzir todo o dano recebido em 3. Possuem o Símbolo de Metal.", peso: 2, cor: "#aeb8c2" },
+    "Carniçal da Morte": { descricao: "Amuleto com um símbolo de osso estranho. Não parece uma boa ideia usá-lo. Custo: 6 PE.", peso: 0.5 }
 };
 
 const classificacoesMonstro = [
@@ -479,6 +451,7 @@ function normalizarPersonagem(ficha) {
     ficha.atributos = ficha.atributos || { ...valoresIniciais };
     ficha.pericias = Array.isArray(ficha.pericias) ? ficha.pericias : [];
     ficha.itens = Array.isArray(ficha.itens) ? ficha.itens : [];
+    ficha.pesosCustomizados = ficha.pesosCustomizados && typeof ficha.pesosCustomizados === "object" ? ficha.pesosCustomizados : {};
     ficha.poderes = Array.isArray(ficha.poderes) ? ficha.poderes : [];
     ficha.armeiro = ficha.armeiro && typeof ficha.armeiro === "object" ? ficha.armeiro : { nome: "", dano: "1d8", ajuste: "nenhum", valor: 0 };
     ficha.arvore = ficha.arvore && typeof ficha.arvore === "object" ? ficha.arvore : { caminho: "", nivel: 0, compras: [] };
@@ -620,6 +593,22 @@ function adicionarXP(ficha, quantidade) {
 
 
 function capacidadeInventario(ficha) { return 5 + Number(ficha.atributos?.FOR || 0) * 2; }
+
+function pesoItem(ficha, item) {
+    if (Object.prototype.hasOwnProperty.call(ficha.pesosCustomizados || {}, item)) {
+        return numeroSeguro(ficha.pesosCustomizados[item], 0, 999);
+    }
+    const catalogo = catalogoItens[item];
+    return numeroSeguro(catalogo?.peso ?? 1, 0, 999);
+}
+
+function pesoTotalInventario(ficha) {
+    return ficha.itens.reduce((total, item) => total + pesoItem(ficha, item), 0);
+}
+
+function formatarPeso(peso) {
+    return Number.isInteger(peso) ? String(peso) : peso.toFixed(1).replace(".", ",");
+}
 
 function calcular(ficha) {
     const classe = classes[ficha.classe] || classes.Combatente;
@@ -1494,31 +1483,57 @@ function mostrarFicha(ficha, abaInicial = "geral") {
         }
 
         if (aba === "itens") {
+            const capacidade = capacidadeInventario(ficha);
+            const pesoAtual = pesoTotalInventario(ficha);
+            const percentual = Math.min(100, capacidade > 0 ? pesoAtual / capacidade * 100 : 0);
             area.innerHTML = `
-                <h3>Inventário</h3>
-                <p class="aviso">Capacidade: ${ficha.itens.length}/${capacidadeInventario(ficha)} itens. Sua Força aumenta o quanto você consegue carregar (5 + 2 por ponto de FOR).</p>
-
-                <div class="campo">
-                    <label for="novo-item">Item conhecido</label>
-                    <select id="novo-item">
-                        ${Object.keys(catalogoItens).map(nome => `
-                            <option value="${escaparHTML(nome)}">
-                                ${escaparHTML(nome)} — ${escaparHTML(catalogoItens[nome].descricao)}
-                            </option>
-                        `).join("")}
-                    </select>
+                <div class="inventario-topo">
+                    <div>
+                        <span class="microtitulo">EQUIPAMENTO & RECURSOS</span>
+                        <h3>Inventário</h3>
+                        <p>Gerencie seus equipamentos e acompanhe o peso carregado.</p>
+                    </div>
+                    <div class="peso-card">
+                        <span>CARGA ATUAL</span>
+                        <strong>${formatarPeso(pesoAtual)} <small>/ ${formatarPeso(capacidade)}</small></strong>
+                        <div class="barra-peso"><div style="width:${percentual}%"></div></div>
+                        <small>${pesoAtual > capacidade ? "Limite excedido" : "Capacidade disponível: " + formatarPeso(Math.max(0, capacidade-pesoAtual))}</small>
+                    </div>
                 </div>
 
-                <button id="adicionar-item">Adicionar item</button>
-
-                <div class="campo">
-                    <label for="item-personalizado">Item personalizado</label>
-                    <input id="item-personalizado" maxlength="60" placeholder="Ex.: Chave enferrujada">
-                    <button id="adicionar-personalizado">
-                        Adicionar item personalizado
-                    </button>
+                <div class="inventario-adicionar">
+                    <div class="campo">
+                        <label for="novo-item">Adicionar equipamento</label>
+                        <select id="novo-item">
+                            ${Object.keys(catalogoItens).map(nome => `
+                                <option value="${escaparHTML(nome)}">
+                                    ${escaparHTML(nome)} · ${formatarPeso(pesoItem(ficha,nome))} kg
+                                </option>
+                            `).join("")}
+                        </select>
+                    </div>
+                    <button id="adicionar-item">＋ Adicionar ao inventário</button>
                 </div>
 
+                <div class="inventario-personalizado">
+                    <h4>Item personalizado</h4>
+                    <div class="grade">
+                        <div class="campo">
+                            <label for="item-personalizado">Nome do item</label>
+                            <input id="item-personalizado" maxlength="60" placeholder="Ex.: Amuleto antigo">
+                        </div>
+                        <div class="campo">
+                            <label for="peso-personalizado">Peso (kg)</label>
+                            <input id="peso-personalizado" type="number" min="0" max="999" step="0.5" value="1">
+                        </div>
+                    </div>
+                    <button class="secundario" id="adicionar-personalizado">＋ Adicionar item personalizado</button>
+                </div>
+
+                <div class="inventario-lista-cabecalho">
+                    <h4>Itens carregados <span>${ficha.itens.length}</span></h4>
+                    <small>Os pesos são somados automaticamente.</small>
+                </div>
                 <div id="lista-itens"></div>
             `;
 
@@ -1528,63 +1543,57 @@ function mostrarFicha(ficha, abaInicial = "geral") {
                 lista.innerHTML = ficha.itens.length
                     ? ficha.itens.map((item, indice) => {
                         const efeito = catalogoItens[item];
-
+                        const peso = pesoItem(ficha, item);
                         return `
-                            <div class="item-linha">
-                                <div>
+                            <div class="item-linha inventario-item">
+                                <div class="item-icone" style="--item-cor:${efeito?.cor || 'var(--neon)'}">▣</div>
+                                <div class="item-info">
                                     <strong>${escaparHTML(item)}</strong>
-                                    <p>
-                                        ${
-                                            efeito
-                                                ? escaparHTML(efeito.descricao)
-                                                : "Item personalizado — sem bônus automático."
-                                        }
-                                    </p>
+                                    <p>${efeito ? escaparHTML(efeito.descricao) : "Item personalizado — sem bônus automático."}</p>
                                 </div>
-                                <button class="perigo" data-remover-item="${indice}">
-                                    Remover
-                                </button>
+                                <span class="item-peso">${formatarPeso(peso)} <small>kg</small></span>
+                                <button class="perigo" data-remover-item="${indice}" aria-label="Remover ${escaparHTML(item)}">Remover</button>
                             </div>
                         `;
                     }).join("")
-                    : "<p class='vazio'>Seu inventário está vazio.</p>";
+                    : "<div class='inventario-vazio'><span>◇</span><strong>Nenhum item no inventário</strong><p>Adicione equipamentos ou materiais para começar.</p></div>";
 
                 lista.querySelectorAll("[data-remover-item]").forEach(botao => {
                     botao.onclick = () => {
-                        ficha.itens.splice(
-                            Number(botao.dataset.removerItem),
-                            1
-                        );
-
+                        const removido = ficha.itens.splice(Number(botao.dataset.removerItem), 1)[0];
+                        if (!ficha.itens.includes(removido)) delete ficha.pesosCustomizados[removido];
                         const stats = calcular(ficha);
-
                         ficha.pvAtual = Math.min(ficha.pvAtual, stats.pv);
                         ficha.peAtual = Math.min(ficha.peAtual, stats.pe);
-
                         salvarPersonagem(ficha);
                         mostrarFicha(ficha, "itens");
                     };
                 });
             }
 
-            document.getElementById("adicionar-item").onclick = () => {
-                if (ficha.itens.length >= capacidadeInventario(ficha)) { alert("Inventário cheio! Aumente sua Força ou remova um item."); return; }
-                ficha.itens.push(document.getElementById("novo-item").value);
+            function podeAdicionar(peso) {
+                if (pesoTotalInventario(ficha) + peso > capacidadeInventario(ficha) + 0.0001) {
+                    alert("Você não tem capacidade para carregar esse item. Remova algo ou aumente sua Força.");
+                    return false;
+                }
+                return true;
+            }
 
+            document.getElementById("adicionar-item").onclick = () => {
+                const nome = document.getElementById("novo-item").value;
+                if (!podeAdicionar(pesoItem(ficha, nome))) return;
+                ficha.itens.push(nome);
                 salvarPersonagem(ficha);
                 mostrarFicha(ficha, "itens");
             };
 
             document.getElementById("adicionar-personalizado").onclick = () => {
                 const nome = document.getElementById("item-personalizado").value.trim();
-
-                if (!nome) {
-                    alert("Digite o nome do item.");
-                    return;
-                }
-
-                if (ficha.itens.length >= capacidadeInventario(ficha)) { alert("Inventário cheio! Aumente sua Força ou remova um item."); return; }
+                const peso = numeroSeguro(document.getElementById("peso-personalizado").value, 0, 999);
+                if (!nome) { alert("Digite o nome do item."); return; }
+                if (!podeAdicionar(peso)) return;
                 ficha.itens.push(nome);
+                ficha.pesosCustomizados[nome] = peso;
                 salvarPersonagem(ficha);
                 mostrarFicha(ficha, "itens");
             };
