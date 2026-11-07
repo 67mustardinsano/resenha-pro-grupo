@@ -42,7 +42,9 @@ const pericias = [
     "Ocultismo",
     "Sobrevivência",
     "Percepção",
-    "Tática"
+    "Tática",
+    "Mente",
+    "Durabilidade"
 ];
 
 
@@ -1011,9 +1013,9 @@ function abrirEditor(ficha) {
 
         <section class="secao">
             <h3>Perícias treinadas</h3>
-            <p>Escolha exatamente 3 perícias. Cada uma concede +2 nos testes relacionados.</p>
+            <p>Escolha exatamente 4 perícias. Cada uma concede +2 nos testes relacionados.</p>
 
-            <p>Selecionadas: <strong id="contador">0/3</strong></p>
+            <p>Selecionadas: <strong id="contador">0/4</strong></p>
 
             <div class="lista-pericias">
                 ${pericias.map(pericia => `
@@ -1044,11 +1046,11 @@ function abrirEditor(ficha) {
         const selecionadas = caixas.filter(caixa => caixa.checked);
 
         document.getElementById("contador").textContent =
-            `${selecionadas.length}/3`;
+            `${selecionadas.length}/4`;
 
         caixas.forEach(caixa => {
             caixa.disabled =
-                selecionadas.length >= 3 && !caixa.checked;
+                selecionadas.length >= 4 && !caixa.checked;
         });
     }
 
@@ -1088,8 +1090,8 @@ function abrirEditor(ficha) {
             .filter(caixa => caixa.checked)
             .map(caixa => caixa.value);
 
-        if (selecionadas.length !== 3) {
-            alert("Escolha exatamente 3 perícias.");
+        if (selecionadas.length !== 4) {
+            alert("Escolha exatamente 4 perícias.");
             return;
         }
 
@@ -2323,7 +2325,9 @@ function mostrarRegras() {
             <h3>Perícias</h3>
             <p>Uma perícia treinada concede +2 nos testes relacionados.</p>
             <p><strong>Tática:</strong> usada nos testes para fabricar, montar e aprimorar itens. Uma perícia Tática treinada concede +2 nesses testes.</p>
-            <p>Ao criar um personagem, escolha exatamente 3 perícias.</p>
+            <p><strong>Mente:</strong> usada para resistir e suportar danos mentais. Uma perícia Mente treinada concede +2 nos testes para resistir a esses efeitos.</p>
+            <p><strong>Durabilidade:</strong> pode ser usada em testes de defesa contra ataques e golpes. Ao usá-la para se defender de ataques físicos, aplique -2 ao teste.</p>
+            <p>Ao criar um personagem, escolha exatamente 4 perícias.</p>
         </section>
 
         <section class="secao">
@@ -2356,6 +2360,19 @@ function mostrarRegras() {
             <p><strong>Anel de Aço:</strong> +1 Defesa.</p>
             <p><strong>Botas Leves:</strong> +1 Defesa e +1 Agilidade.</p>
             <p>Os bônus são aplicados automaticamente quando o item está no inventário. Para manter o equilíbrio, itens iguais acumulam, mas o mestre pode limitar armaduras pesadas ou escudos conforme a campanha.</p>
+        </section>
+
+        <section class="secao">
+            <h3>Durabilidade e tipos de ataque</h3>
+            <p>Durabilidade pode ser usada em testes para defender o personagem. Contra ataques físicos, o teste de Durabilidade recebe uma penalidade de -2.</p>
+            <p><strong>Tipos de ataques físicos:</strong></p>
+            <ul>
+                <li><strong>Corte:</strong> golpes de espada e outras armas cortantes.</li>
+                <li><strong>Impacto:</strong> socos, pancadas e tiros.</li>
+                <li><strong>Ponta-afiada:</strong> flechas e outros projéteis perfurantes.</li>
+            </ul>
+            <p><strong>Golpes elementais:</strong> gelo, água, fogo, grama, terra, elétrico, dragão, escuridão, fada, psíquico, luz, metal, osso e sideral.</p>
+            <p>O mestre identifica o tipo de dano do golpe e decide quando pedir um teste de Durabilidade. A perícia não reduz dano automaticamente: ela é usada no teste defensivo quando a situação exigir.</p>
         </section>
 
         <section class="secao">
