@@ -41,7 +41,8 @@ const pericias = [
     "Enganação",
     "Ocultismo",
     "Sobrevivência",
-    "Percepção"
+    "Percepção",
+    "Tática"
 ];
 
 
@@ -321,7 +322,12 @@ const elementos = {
 
 
 const catalogoItens = {
-    "ITEM DE FABRICAÇÃO": { descricao: "Material utilizado na criação e aprimoramento de equipamentos.", peso: 1 },
+    "ITEM DE FABRICAÇÃO ARQ.": { descricao: "Material de fabricação da categoria ARQ.", peso: 1 },
+    "ITEM DE FABRICAÇÃO ESP.": { descricao: "Material de fabricação da categoria ESP.", peso: 1 },
+    "ITEM DE FABRICAÇÃO EXP.": { descricao: "Material de fabricação da categoria EXP.", peso: 1 },
+    "ITEM DE FABRICAÇÃO MAG.": { descricao: "Material de fabricação da categoria MAG.", peso: 1 },
+    "ITEM DE FABRICAÇÃO COMUM": { descricao: "Material comum utilizado na fabricação de itens.", peso: 1 },
+    "ITEM DE FABRICAÇÃO POC.": { descricao: "Material de fabricação da categoria POC.", peso: 1 },
     "Arco": { descricao: "Arma de longo alcance.", peso: 2 },
     "Espada": { descricao: "Arma corpo a corpo.", peso: 2 },
     "Crossbow": { descricao: "Besta de disparo.", peso: 2.5 },
@@ -451,7 +457,15 @@ function normalizarPersonagem(ficha) {
     ficha.atributos = ficha.atributos || { ...valoresIniciais };
     ficha.pericias = Array.isArray(ficha.pericias) ? ficha.pericias : [];
     ficha.itens = Array.isArray(ficha.itens) ? ficha.itens : [];
+    // Compatibilidade: converte o nome antigo para a nova categoria ARQ.
+    ficha.itens = ficha.itens.map(item =>
+        item === "ITEM DE FABRICAÇÃO" ? "ITEM DE FABRICAÇÃO ARQ." : item
+    );
     ficha.pesosCustomizados = ficha.pesosCustomizados && typeof ficha.pesosCustomizados === "object" ? ficha.pesosCustomizados : {};
+    if (ficha.pesosCustomizados && Object.prototype.hasOwnProperty.call(ficha.pesosCustomizados, "ITEM DE FABRICAÇÃO")) {
+        ficha.pesosCustomizados["ITEM DE FABRICAÇÃO ARQ."] ??= ficha.pesosCustomizados["ITEM DE FABRICAÇÃO"];
+        delete ficha.pesosCustomizados["ITEM DE FABRICAÇÃO"];
+    }
     ficha.poderes = Array.isArray(ficha.poderes) ? ficha.poderes : [];
     ficha.armeiro = ficha.armeiro && typeof ficha.armeiro === "object" ? ficha.armeiro : { nome: "", dano: "1d8", ajuste: "nenhum", valor: 0 };
     ficha.arvore = ficha.arvore && typeof ficha.arvore === "object" ? ficha.arvore : { caminho: "", nivel: 0, compras: [] };
@@ -2308,6 +2322,7 @@ function mostrarRegras() {
         <section class="secao">
             <h3>Perícias</h3>
             <p>Uma perícia treinada concede +2 nos testes relacionados.</p>
+            <p><strong>Tática:</strong> usada nos testes para fabricar, montar e aprimorar itens. Uma perícia Tática treinada concede +2 nesses testes.</p>
             <p>Ao criar um personagem, escolha exatamente 3 perícias.</p>
         </section>
 
