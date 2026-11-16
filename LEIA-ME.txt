@@ -1,0 +1,21 @@
+# RPG — Resenha Pro Grupo (Altavento)
+
+## Como abrir
+1. Extraia a pasta `fichas_rpg_atualizado.zip`.
+2. Abra a pasta `fichas_rpg_atualizado` no VS Code.
+3. Abra `index.html` com o Live Server.
+
+Não é necessário instalar bibliotecas.
+
+## Arquivos
+- `index.html`: estrutura da página e áudio.
+- `style.css`: estilos originais.
+- `altavento.css`: visual Velho-Oeste.
+- `script.js`: sistemas originais e inventário atualizado.
+- `sistemas.js`: raças, metamorfos, barras de recursos e apresentação de Altavento.
+- `musica/Caatinga.mp3`: música em looping.
+
+## Observações
+- Alguns navegadores bloqueiam áudio automático. Se Caatinga não começar ao abrir, clique uma vez na página; ela ficará em looping.
+- Os dados dos personagens continuam salvos no `localStorage` do navegador.
+- Faça uma cópia da pasta antiga antes de substituir seu projeto atual.
