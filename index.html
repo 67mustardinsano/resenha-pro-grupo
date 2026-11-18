@@ -5,17 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>RPG — Resenha Pro Grupo</title>
+    <title>Campos Elísios — A Ilha do Sol</title>
 
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="altavento.css">
+    <link id="tema-altavento" rel="stylesheet" href="altavento.css" disabled>
+    <link id="tema-campos-elisios" rel="stylesheet" href="campos-elisios.css">
 </head>
 <body>
 
     <header>
-        <h1>ALTAVENTO</h1>
-        <p>Resenha Pro Grupo · RPG</p>
-        <p class="frase-efeito">(O início do Começo, e a finalização do Fim...)</p>
+        <h1>CAMPOS ELÍSIOS</h1>
+        <p>A ILHA DO SOL · ARQUIVO DE SOBREVIVÊNCIA</p>
+        <p class="frase-efeito">O sol não existe mais por aqui.</p>
     </header>
 
     <main id="conteudo">
@@ -32,7 +33,9 @@
         <p>RPG · Resenha Pro Grupo</p>
     </footer>
 
-    <audio id="musica-caatinga" src="musica/Caatinga.mp3" loop preload="auto"></audio>
+    <audio id="musica-caatinga" src="musica/Caatinga.mp3" loop preload="none"></audio>
+    <audio id="musica-coracao" src="musica/coracao-congelado.mp3" loop preload="none"></audio>
+    <script src="ambientacao-musica.js"></script>
     <script src="script.js"></script>
     <script src="sistemas.js"></script>
 </body>

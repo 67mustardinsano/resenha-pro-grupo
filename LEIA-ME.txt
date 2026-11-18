@@ -1,21 +1,34 @@
-# RPG — Resenha Pro Grupo (Altavento)
+# RPG — Ambientação e sistemas
 
 ## Como abrir
-1. Extraia a pasta `fichas_rpg_atualizado.zip`.
-2. Abra a pasta `fichas_rpg_atualizado` no VS Code.
+1. Extraia o arquivo ZIP.
+2. Abra a pasta `fichas rpg` no VS Code.
 3. Abra `index.html` com o Live Server.
 
 Não é necessário instalar bibliotecas.
 
-## Arquivos
-- `index.html`: estrutura da página e áudio.
-- `style.css`: estilos originais.
-- `altavento.css`: visual Velho-Oeste.
-- `script.js`: sistemas originais e inventário atualizado.
-- `sistemas.js`: raças, metamorfos, barras de recursos e apresentação de Altavento.
-- `musica/Caatinga.mp3`: música em looping.
+## Ambientação
+No painel do cabeçalho, escolha entre:
+- `U.I`: interface neutra, sem tema de ambientação.
+- `Altavento`: tema visual de Altavento.
+- `Campos-Elísios`: tema congelado da Ilha do Sol.
 
-## Observações
-- Alguns navegadores bloqueiam áudio automático. Se Caatinga não começar ao abrir, clique uma vez na página; ela ficará em looping.
-- Os dados dos personagens continuam salvos no `localStorage` do navegador.
-- Faça uma cópia da pasta antiga antes de substituir seu projeto atual.
+A ambientação escolhida fica salva neste navegador.
+
+## Música
+- `Caatinga`: reproduz `musica/Caatinga.mp3` em looping.
+- `Coração-Congelado`: reproduz `musica/coracao-congelado.mp3` em looping.
+- `Mutar Música`: interrompe a reprodução.
+
+A música só começa quando uma opção é clicada, para evitar reprodução inesperada ou conflito entre faixas. Alguns navegadores exigem interação do usuário para liberar áudio.
+
+## Arquivos principais
+- `index.html`: estrutura da página.
+- `style.css`: estilos da interface e controles.
+- `altavento.css`: tema visual de Altavento.
+- `campos-elisios.css`: tema visual dos Campos Elísios.
+- `ambientacao-musica.js`: seletor de ambientação e controle independente das músicas.
+- `script.js`: sistemas principais do RPG.
+- `sistemas.js`: raças, metamorfos e regras adicionais.
+
+Os dados dos personagens continuam salvos no `localStorage` do navegador.

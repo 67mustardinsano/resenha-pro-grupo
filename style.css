@@ -605,3 +605,43 @@ footer {color:#66776b}
 /* Identidade e detalhes coloridos dos itens */
 header .frase-efeito { margin-top: 8px; color: #b7c9ba; font-style: italic; letter-spacing: .04em; }
 .item-icone { color: var(--item-cor, var(--neon)); background: color-mix(in srgb, var(--item-cor, var(--neon)) 16%, transparent); border: 1px solid color-mix(in srgb, var(--item-cor, var(--neon)) 35%, transparent); }
+
+/* Seletor de ambientação e trilha sonora */
+.painel-controles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 14px;
+  margin: 22px auto 0;
+  padding: 14px;
+  max-width: 1050px;
+  border: 1px solid rgba(160, 180, 195, .28);
+  border-radius: 12px;
+  background: rgba(8, 13, 20, .78);
+  text-align: left;
+}
+.painel-controles .controle-grupo h2 {
+  margin: 0 0 9px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #a9c5d5;
+}
+.controle-botoes { display: flex; flex-wrap: wrap; gap: 7px; }
+.painel-controles button {
+  border: 1px solid rgba(150, 185, 205, .38);
+  border-radius: 7px;
+  padding: 8px 11px;
+  background: rgba(40, 55, 70, .72);
+  color: #e8f1f6;
+  cursor: pointer;
+  font-size: 12px;
+}
+.painel-controles button:hover,
+.painel-controles button[aria-pressed="true"] {
+  border-color: #a9d8ed;
+  background: rgba(87, 133, 158, .55);
+}
+#estado-musica { margin: 8px 0 0; color: #9eb4c1; font-size: 11px; }
+@media (max-width: 600px) {
+  .painel-controles { margin-top: 14px; padding: 11px; }
+  .controle-botoes button { flex: 1 1 auto; }
+}

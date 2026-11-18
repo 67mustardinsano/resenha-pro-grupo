@@ -126,25 +126,6 @@ abrirEditor = function(ficha) {
     };
 };
 
-const mostrarInicioAltavento = mostrarInicio;
-mostrarInicio = function() {
-    mostrarInicioAltavento();
-    const painel = document.createElement("section");
-    painel.className = "altavento-painel";
-    painel.innerHTML = `
-      <div class="altavento-selo">✦ REPÚBLICA INSULAR ✦</div>
-      <h2>Ilha de Altavento</h2>
-      <p class="altavento-sub">A menor ilha. O maior sopro do mundo.</p>
-      <p>Mais desértica do que as demais, Altavento é o berço da <strong>magia do vento</strong> — uma arte que permite viver sem depender de florestas. Cerca de <strong>80% de todo o vento do mundo</strong> nasce ou é conduzido por esta ilha.</p>
-      <p>Apesar de pequena, abriga <strong>500 mil habitantes</strong>, conhecidos por serem os povos mais felizes e doces do mundo. É a única ilha que possui um presidente.</p>
-      <div class="amon-card">
-        <div><span class="amon-eyebrow">PRESIDENTE E PROTETOR DOS CÉUS</span><h3>Àmon</h3><p>Um gigantesco dragão de quatro asas, dócil guardião dos céus da Terra. Protege o mundo de meteoros e ameaças alienígenas.</p><p>Em seu canal no YouTube, <strong>“Um Dia com Deus”</strong>, compartilha sua rotina com todos.</p></div>
-        <div class="amon-mark">À</div>
-      </div>
-    `;
-    conteudo.appendChild(painel);
-};
-
 const mostrarFichaRacas = mostrarFicha;
 mostrarFicha = function(ficha, abaInicial="geral") {
     mostrarFichaRacas(ficha, abaInicial);
@@ -245,19 +226,6 @@ mostrarFicha = function(ficha, abaInicial="geral") {
     const header = conteudo.querySelector("h2");
     if(header) header.after(racaInfo);
 };
-
-/* Música: tenta iniciar automaticamente; se o navegador bloquear, começa no primeiro gesto. */
-(function iniciarCaatinga() {
-    const audio = document.getElementById("musica-caatinga");
-    if (!audio) return;
-    audio.loop = true;
-    audio.volume = 0.35;
-    const iniciar = () => audio.play().catch(()=>{});
-    iniciar();
-    document.addEventListener("pointerdown", iniciar, { once: true });
-    document.addEventListener("keydown", iniciar, { once: true });
-})();
-
 
 const mostrarRegrasAltavento = mostrarRegras;
 mostrarRegras = function() {

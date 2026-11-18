@@ -360,7 +360,42 @@ const catalogoItens = {
     "Manto do Inferno": { descricao: "Gaste 2 PE para receber +4 em testes de Furtividade durante uma cena. Feito por Syndor.", peso: 0.5, cor: "#252525" },
     "Braceletes da Vida": { descricao: "Braceletes de energia vital.", peso: 2, cor: "#bfc4cc" },
     "Braceletes de Armadura": { descricao: "Concedem Defesa. Uma vez por rodada, gaste seu contra-ataque para reduzir todo o dano recebido em 3. Possuem o Símbolo de Metal.", peso: 2, cor: "#aeb8c2" },
-    "Carniçal da Morte": { descricao: "Amuleto com um símbolo de osso estranho. Não parece uma boa ideia usá-lo. Custo: 6 PE.", peso: 0.5 }
+    "Carniçal da Morte": { descricao: "Amuleto com um símbolo de osso estranho. Não parece uma boa ideia usá-lo. Custo: 6 PE.", peso: 0.5 },
+    // Arsenal — Campos Elísios: A Ilha do Sol
+    "Pistola": { descricao: "Dano: 1d12. Crítico: 18. Tipo: balístico. Arma de fogo. Peso: 1 kg.", peso: 1 },
+    "Escudo": { descricao: "+2 Defesa. Peso: 2 kg.", peso: 2 },
+    "Escudo Pesado": { descricao: "+6 Defesa. Peso: 4 kg.", peso: 4 },
+    "Revólver": { descricao: "Dano: 2d6. Crítico: 3×. Tipo: balístico. Arma de fogo. Peso: 1 kg.", peso: 1 },
+    "Fuzil Básico": { descricao: "Dano: 2d8. Crítico: —. Tipo: balístico. Arma de fogo. Peso: 3 kg.", peso: 3 },
+    "Acha": { descricao: "Dano: 1d12. Crítico: 3×. Tipo: corte. Pesado. Peso: 2 kg.", peso: 2 },
+    "Arco Composto": { descricao: "Dano: 1d10. Crítico: 3×. Tipo: perfuração. Alcance médio. Peso: 1,5 kg.", peso: 1.5 },
+    "Bastão": { descricao: "Dano: 1d6. Crítico: —. Tipo: impacto. Leve. Peso: 1 kg.", peso: 1 },
+    "Cajado": { descricao: "Dano: 1d6. Crítico: —. Tipo: impacto. Leve. Peso: 1 kg.", peso: 1 },
+    "Corrente": { descricao: "Dano: 1d4. Crítico: —. Tipo: perfuração. Leve · +2 em testes de Segurar/Derrubar. Peso: 0,5 kg.", peso: 0.5 },
+    "Espingarda": { descricao: "Dano: 4d6. Crítico: —. Tipo: balístico. Maior chance de acertar um colega. Peso: 3 kg.", peso: 3 },
+    "Faquinha": { descricao: "Dano: 1d3. Crítico: 17. Tipo: perfuração. Leve. Peso: 0,2 kg.", peso: 0.2 },
+    "Florete": { descricao: "Dano: 1d6. Crítico: 18. Tipo: perfuração. Leve. Peso: 0,8 kg.", peso: 0.8 },
+    "Fuzil de Assalto": { descricao: "Dano: 2d10. Crítico: 18. Tipo: balístico. Arma de fogo. Peso: 2 kg.", peso: 2 },
+    "Sniper": { descricao: "Dano: 2d10+1d8. Crítico: 19 · Multiplicador: 3×. Tipo: balístico. Arma de fogo. Peso: 4 kg.", peso: 4 },
+    "Gadanho": { descricao: "Dano: 2d4. Crítico: 4×. Tipo: corte. Pesado. Peso: 4 kg.", peso: 4 },
+    "Lança": { descricao: "Dano: 1d6. Crítico: —. Tipo: perfuração. Pesado. Peso: 1 kg.", peso: 1 },
+    "Bazuka": { descricao: "Dano: 10d8. Crítico: —. Tipo: impacto. Pesado. Peso: 4 kg.", peso: 4 },
+    "Lança-chamas": { descricao: "Dano: 6d6. Crítico: —. Tipo: fogo. Pesado. Peso: 3 kg.", peso: 3 },
+    "Machadinha": { descricao: "Dano: 1d4. Crítico: 8. Tipo: corte. Leve. Peso: 0,5 kg.", peso: 0.5 },
+    "Machete": { descricao: "Dano: 1d4. Crítico: 19. Tipo: corte. Leve · +2 em testes de Sobrevivência. Peso: 0,33 kg.", peso: 0.33 },
+    "Marreta": { descricao: "Dano: 3d4. Crítico: —. Tipo: impacto. Pesado. Peso: 4,33 kg.", peso: 4.33 },
+    "Nunchaku": { descricao: "Dano: 1d8. Crítico: —. Tipo: impacto. Leve. Peso: 0,8 kg.", peso: 0.8 },
+    "Martelo": { descricao: "Dano: 1d4. Crítico: 18. Tipo: impacto. +2 em testes de Criar Armas. Peso não informado.", peso: 0 },
+    "Metralhadora": { descricao: "Dano: 2d8. Crítico: 19 · Multiplicador: 3×. Tipo: balístico. Arma de fogo. Peso: 3 kg.", peso: 3 },
+    "Montante": { descricao: "Dano: 2d6. Crítico: 19. Tipo: corte. Pesado. Peso: 4 kg.", peso: 4 },
+    "Motosserra": { descricao: "Dano: 3d6. Crítico: —. Tipo: corte. Pesado. Peso: 3,33 kg.", peso: 3.33 },
+    "Punhal": { descricao: "Dano: 1d4. Crítico: —. Tipo: corte. Leve. Peso: 0,1 kg.", peso: 0.1 },
+    "Sub-metralhadora": { descricao: "Dano: 2d8. Crítico: 19. Tipo: balístico. Pesado · Arma de fogo. Peso: 3 kg.", peso: 3 },
+    "JUSTIÇA-E-ESPLENDOR": { descricao: "Dano: 12d8. Crítico: 17 · Multiplicador: 4×. Tipo: —. Pesado · Relíquia. Peso: 6 kg.", peso: 6 },
+    "Munição Básica": { descricao: "Dano: —. Crítico: —. Tipo: —. Para revólver e pistola. Peso: 0,3 kg.", peso: 0.3 },
+    "Munição Média": { descricao: "Dano: —. Crítico: —. Tipo: —. Para submetralhadora, metralhadora e fuzis básicos. Peso: 0,5 kg.", peso: 0.5 },
+    "Munição Pesada": { descricao: "Dano: —. Crítico: —. Tipo: —. Para todas as demais armas. Peso: 1,1 kg.", peso: 1.1 },
+
 };
 
 const classificacoesMonstro = [
@@ -787,8 +822,16 @@ function renderizarProgressao(ficha) {
 
 function mostrarInicio() {
     conteudo.innerHTML = `
-        <h2>Bem-vinde ao RPG!</h2>
-        <p>Resenha Pro Grupo — escolha uma área para continuar.</p>
+        <h2>A Ilha do Sol</h2>
+        <p>Uma ilha perdida nos céus. Majestosa, silenciosa — e agora completamente congelada.</p>
+        <section class="lore-ilha">
+            <span class="microtitulo">RELATÓRIO DE CAMPO · MESOSFERA</span>
+            <h3>O sol não existe mais por aqui.</h3>
+            <p>Os Campos Elísios já foram um lugar de beleza impossível. Hoje, ruínas e corpos permanecem sob camadas de gelo, enquanto o frio da mesosfera tomou cada pedra, árvore e caminho.</p>
+            <p>Não há amanhecer. Apenas um céu morto e a lembrança de um sol congelado. No coração da ilha, uma única estátua permanece intocada pelo frio.</p>
+            <div class="lore-selo">☼ <span>ÚLTIMO VESTÍGIO DE LUZ</span> ☼</div>
+        </section>
+        <p>Escolha uma área para continuar sua jornada.</p>
 
         <div class="grade">
             <div class="ficha-bloco">
@@ -1527,6 +1570,15 @@ function mostrarFicha(ficha, abaInicial = "geral") {
                     </div>
                 </div>
 
+                <section class="arsenal-ilha" aria-label="Arsenal dos Campos Elísios">
+                    <div class="arsenal-cabecalho"><div><span class="microtitulo">ARSENAL DA ILHA</span><h3>Armas & Munições</h3><p>Equipamentos catalogados sob o sol congelado.</p></div><span class="selo-sol">☼</span></div>
+                    <div class="arsenal-lista">
+                        ${Object.entries(catalogoItens).filter(([nome]) => ["Pistola", "Escudo", "Escudo Pesado", "Revólver", "Fuzil Básico", "Acha", "Arco Composto", "Bastão", "Cajado", "Corrente", "Espingarda", "Faquinha", "Florete", "Fuzil de Assalto", "Sniper", "Gadanho", "Lança", "Bazuka", "Lança-chamas", "Machadinha", "Machete", "Marreta", "Nunchaku", "Martelo", "Metralhadora", "Montante", "Motosserra", "Punhal", "Sub-metralhadora", "JUSTIÇA-E-ESPLENDOR", "Munição Básica", "Munição Média", "Munição Pesada"].includes(nome)).map(([nome, item]) => `
+                            <details class="arma-registro"><summary><span class="arma-nome">${escaparHTML(nome)}</span><span class="arma-resumo">${escaparHTML(item.descricao.split('.').slice(0,2).join(' · '))}</span><span class="arma-add">＋</span></summary><div class="arma-detalhe"><p>${escaparHTML(item.descricao)}</p><button type="button" data-arsenal-add="${escaparHTML(nome)}">Adicionar ao inventário</button></div></details>
+                        `).join("")}
+                    </div>
+                </section>
+
                 <div class="inventario-adicionar">
                     <div class="campo">
                         <label for="novo-item">Adicionar equipamento</label>
@@ -1583,6 +1635,17 @@ function mostrarFicha(ficha, abaInicial = "geral") {
                         `;
                     }).join("")
                     : "<div class='inventario-vazio'><span>◇</span><strong>Nenhum item no inventário</strong><p>Adicione equipamentos ou materiais para começar.</p></div>";
+
+                area.querySelectorAll("[data-arsenal-add]").forEach(botao => {
+                    botao.onclick = () => {
+                        const nome = botao.dataset.arsenalAdd;
+                        const peso = pesoItem(ficha, nome);
+                        if (!podeAdicionar(peso)) return;
+                        ficha.itens.push(nome);
+                        salvarPersonagem(ficha);
+                        mostrarFicha(ficha, "itens");
+                    };
+                });
 
                 lista.querySelectorAll("[data-remover-item]").forEach(botao => {
                     botao.onclick = () => {
