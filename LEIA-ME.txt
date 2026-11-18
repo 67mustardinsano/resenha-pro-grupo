@@ -9,7 +9,6 @@ Não é necessário instalar bibliotecas.
 
 ## Ambientação
 No painel do cabeçalho, escolha entre:
-- `U.I`: interface neutra, sem tema de ambientação.
 - `Altavento`: tema visual de Altavento.
 - `Campos-Elísios`: tema congelado da Ilha do Sol.
 

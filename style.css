@@ -645,3 +645,36 @@ header .frase-efeito { margin-top: 8px; color: #b7c9ba; font-style: italic; lett
   .painel-controles { margin-top: 14px; padding: 11px; }
   .controle-botoes button { flex: 1 1 auto; }
 }
+
+
+/* Recursos da ficha */
+.barras-recursos { display:grid; gap:16px; margin:16px 0; padding:18px; }
+.recurso-cabecalho { display:grid; gap:8px; }
+.recurso-linha { display:flex; justify-content:space-between; align-items:center; gap:12px; color:var(--texto); }
+.recurso-linha strong { font-size:13px; }
+.recurso-linha span { color:var(--texto-fraco); font-size:13px; font-variant-numeric:tabular-nums; }
+.recurso-linha b { color:var(--texto); font-size:16px; }
+.recurso-trilho { height:10px; overflow:hidden; border-radius:20px; background:#101820; border:1px solid var(--borda); }
+.recurso-trilho>div { height:100%; border-radius:20px; transition:width .2s ease; }
+.recurso-pv>div { background:linear-gradient(90deg,#a34f5a,#e08b91); }
+.recurso-pe>div { background:linear-gradient(90deg,#477caa,#91c9e8); }
+.recursos-acoes { display:flex; flex-wrap:wrap; gap:8px; margin-top:2px; }
+.recursos-acoes button { flex:1 1 150px; }
+
+/* Inventário */
+.arsenal-lista { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:9px; }
+.arma-registro { min-width:0; border:1px solid var(--borda); border-radius:8px; overflow:hidden; background:var(--painel-escuro); }
+.arma-registro summary { display:grid; grid-template-columns:minmax(0,1fr) 22px; align-items:center; gap:5px 10px; padding:12px; cursor:pointer; list-style:none; }
+.arma-registro summary::-webkit-details-marker { display:none; }
+.arma-registro summary:before { content:"›"; grid-column:2; grid-row:1 / span 2; text-align:center; font-size:22px; color:var(--azul-claro,var(--neon)); }
+.arma-registro[open] summary:before { content:"⌄"; }
+.arma-nome { font-weight:700; color:var(--texto); }
+.arma-resumo { min-width:0; font-size:11px; line-height:1.4; color:var(--texto-fraco); }
+.arma-add { display:none; }
+.arma-detalhe { padding:10px 12px 12px; border-top:1px solid var(--borda); }
+.arma-detalhe p { margin:0 0 10px; color:var(--texto-fraco); font-size:12px; line-height:1.5; }
+.arma-detalhe button { font-size:12px; padding:8px 11px; }
+.inventario-topo p { display:none; }
+.inventario-lista-cabecalho { margin-top:22px; }
+.item-linha.inventario-item { border:1px solid var(--borda); border-radius:8px; }
+@media(max-width:600px) { .recurso-linha { align-items:flex-start; } .recursos-acoes button { flex:1 1 100%; } .arsenal-lista { grid-template-columns:1fr; } }

@@ -132,18 +132,28 @@ mostrarFicha = function(ficha, abaInicial="geral") {
     const area = document.getElementById("conteudo-aba");
     if (!area) return;
     const stats = calcular(ficha);
-    const pctPV = stats.pv > 0 ? Math.min(100, ficha.pvAtual / stats.pv * 100) : 0;
-    const pctPE = stats.pe > 0 ? Math.min(100, ficha.peAtual / stats.pe * 100) : 0;
+    const pvMax = Math.max(0, Number(stats.pv) || 0);
+    const peMax = Math.max(0, Number(stats.pe) || 0);
+    const pvAtual = Math.max(0, Math.min(pvMax, Number(ficha.pvAtual) || 0));
+    const peAtual = Math.max(0, Math.min(peMax, Number(ficha.peAtual) || 0));
+    ficha.pvAtual = pvAtual;
+    ficha.peAtual = peAtual;
+    const pctPV = pvMax > 0 ? Math.min(100, pvAtual / pvMax * 100) : 0;
+    const pctPE = peMax > 0 ? Math.min(100, peAtual / peMax * 100) : 0;
     const bars = document.createElement("section");
     bars.className = "secao barras-recursos";
     bars.innerHTML = `
-      <div class="barra-label"><strong>PV</strong><span>${ficha.pvAtual} / ${stats.pv}</span></div>
-      <div class="barra trilho-pv"><div style="width:${pctPV}%"></div></div>
-      <div class="barra-label"><strong>PE</strong><span>${ficha.peAtual} / ${stats.pe}</span></div>
-      <div class="barra trilho-pe"><div style="width:${pctPE}%"></div></div>
-      <div class="acoes">
-        <button class="secundario" id="limite-pv">+5 ao limite de PV</button>
-        <button class="secundario" id="limite-pe">+3 ao limite de PE</button>
+      <div class="recurso-cabecalho">
+        <div class="recurso-linha"><strong>Pontos de Vida</strong><span><b>${pvAtual}</b> / ${pvMax}</span></div>
+        <div class="recurso-trilho recurso-pv" role="progressbar" aria-label="Pontos de Vida" aria-valuemin="0" aria-valuemax="${pvMax}" aria-valuenow="${pvAtual}"><div style="width:${pctPV}%"></div></div>
+      </div>
+      <div class="recurso-cabecalho">
+        <div class="recurso-linha"><strong>Pontos de Energia</strong><span><b>${peAtual}</b> / ${peMax}</span></div>
+        <div class="recurso-trilho recurso-pe" role="progressbar" aria-label="Pontos de Energia" aria-valuemin="0" aria-valuemax="${peMax}" aria-valuenow="${peAtual}"><div style="width:${pctPE}%"></div></div>
+      </div>
+      <div class="acoes recursos-acoes">
+        <button class="secundario" id="limite-pv">+5 PV máximo</button>
+        <button class="secundario" id="limite-pe">+3 PE máximo</button>
         <button class="secundario" id="limite-defesa">+1 Defesa</button>
       </div>`;
     area.prepend(bars);

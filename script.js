@@ -822,16 +822,8 @@ function renderizarProgressao(ficha) {
 
 function mostrarInicio() {
     conteudo.innerHTML = `
-        <h2>A Ilha do Sol</h2>
-        <p>Uma ilha perdida nos céus. Majestosa, silenciosa — e agora completamente congelada.</p>
-        <section class="lore-ilha">
-            <span class="microtitulo">RELATÓRIO DE CAMPO · MESOSFERA</span>
-            <h3>O sol não existe mais por aqui.</h3>
-            <p>Os Campos Elísios já foram um lugar de beleza impossível. Hoje, ruínas e corpos permanecem sob camadas de gelo, enquanto o frio da mesosfera tomou cada pedra, árvore e caminho.</p>
-            <p>Não há amanhecer. Apenas um céu morto e a lembrança de um sol congelado. No coração da ilha, uma única estátua permanece intocada pelo frio.</p>
-            <div class="lore-selo">☼ <span>ÚLTIMO VESTÍGIO DE LUZ</span> ☼</div>
-        </section>
-        <p>Escolha uma área para continuar sua jornada.</p>
+        <h2>Início</h2>
+        <p>Escolha o que deseja abrir.</p>
 
         <div class="grade">
             <div class="ficha-bloco">
@@ -1558,12 +1550,12 @@ function mostrarFicha(ficha, abaInicial = "geral") {
             area.innerHTML = `
                 <div class="inventario-topo">
                     <div>
-                        <span class="microtitulo">EQUIPAMENTO & RECURSOS</span>
+                        <span class="microtitulo">EQUIPAMENTO</span>
                         <h3>Inventário</h3>
-                        <p>Gerencie seus equipamentos e acompanhe o peso carregado.</p>
+                        
                     </div>
                     <div class="peso-card">
-                        <span>CARGA ATUAL</span>
+                        <span>PESO</span>
                         <strong>${formatarPeso(pesoAtual)} <small>/ ${formatarPeso(capacidade)}</small></strong>
                         <div class="barra-peso"><div style="width:${percentual}%"></div></div>
                         <small>${pesoAtual > capacidade ? "Limite excedido" : "Capacidade disponível: " + formatarPeso(Math.max(0, capacidade-pesoAtual))}</small>
@@ -1571,7 +1563,7 @@ function mostrarFicha(ficha, abaInicial = "geral") {
                 </div>
 
                 <section class="arsenal-ilha" aria-label="Arsenal dos Campos Elísios">
-                    <div class="arsenal-cabecalho"><div><span class="microtitulo">ARSENAL DA ILHA</span><h3>Armas & Munições</h3><p>Equipamentos catalogados sob o sol congelado.</p></div><span class="selo-sol">☼</span></div>
+                    <div class="arsenal-cabecalho"><div><span class="microtitulo">EQUIPAMENTOS</span><h3>Armas e munições</h3></div><span class="selo-sol">☼</span></div>
                     <div class="arsenal-lista">
                         ${Object.entries(catalogoItens).filter(([nome]) => ["Pistola", "Escudo", "Escudo Pesado", "Revólver", "Fuzil Básico", "Acha", "Arco Composto", "Bastão", "Cajado", "Corrente", "Espingarda", "Faquinha", "Florete", "Fuzil de Assalto", "Sniper", "Gadanho", "Lança", "Bazuka", "Lança-chamas", "Machadinha", "Machete", "Marreta", "Nunchaku", "Martelo", "Metralhadora", "Montante", "Motosserra", "Punhal", "Sub-metralhadora", "JUSTIÇA-E-ESPLENDOR", "Munição Básica", "Munição Média", "Munição Pesada"].includes(nome)).map(([nome, item]) => `
                             <details class="arma-registro"><summary><span class="arma-nome">${escaparHTML(nome)}</span><span class="arma-resumo">${escaparHTML(item.descricao.split('.').slice(0,2).join(' · '))}</span><span class="arma-add">＋</span></summary><div class="arma-detalhe"><p>${escaparHTML(item.descricao)}</p><button type="button" data-arsenal-add="${escaparHTML(nome)}">Adicionar ao inventário</button></div></details>
@@ -1594,7 +1586,7 @@ function mostrarFicha(ficha, abaInicial = "geral") {
                 </div>
 
                 <div class="inventario-personalizado">
-                    <h4>Item personalizado</h4>
+                    <h4>Adicionar item manualmente</h4>
                     <div class="grade">
                         <div class="campo">
                             <label for="item-personalizado">Nome do item</label>
@@ -1610,7 +1602,7 @@ function mostrarFicha(ficha, abaInicial = "geral") {
 
                 <div class="inventario-lista-cabecalho">
                     <h4>Itens carregados <span>${ficha.itens.length}</span></h4>
-                    <small>Os pesos são somados automaticamente.</small>
+                    <small>${ficha.itens.length ? "Peso total atualizado." : "Nenhum item adicionado."}</small>
                 </div>
                 <div id="lista-itens"></div>
             `;
@@ -1627,14 +1619,14 @@ function mostrarFicha(ficha, abaInicial = "geral") {
                                 <div class="item-icone" style="--item-cor:${efeito?.cor || 'var(--neon)'}">▣</div>
                                 <div class="item-info">
                                     <strong>${escaparHTML(item)}</strong>
-                                    <p>${efeito ? escaparHTML(efeito.descricao) : "Item personalizado — sem bônus automático."}</p>
+                                    <p>${efeito ? escaparHTML(efeito.descricao) : "Sem efeito adicional."}</p>
                                 </div>
                                 <span class="item-peso">${formatarPeso(peso)} <small>kg</small></span>
                                 <button class="perigo" data-remover-item="${indice}" aria-label="Remover ${escaparHTML(item)}">Remover</button>
                             </div>
                         `;
                     }).join("")
-                    : "<div class='inventario-vazio'><span>◇</span><strong>Nenhum item no inventário</strong><p>Adicione equipamentos ou materiais para começar.</p></div>";
+                    : "<div class='inventario-vazio'><strong>Inventário vazio</strong><p>Adicione um item para começar.</p></div>";
 
                 area.querySelectorAll("[data-arsenal-add]").forEach(botao => {
                     botao.onclick = () => {

@@ -11,7 +11,6 @@
           <div class="controle-grupo">
             <h2>AMBIENTAÇÕES</h2>
             <div class="controle-botoes" role="group" aria-label="Selecionar ambientação">
-              <button type="button" data-ambiente="ui" aria-pressed="false">U.I</button>
               <button type="button" data-ambiente="altavento" aria-pressed="false">Altavento</button>
               <button type="button" data-ambiente="campos-elisios" aria-pressed="true">Campos-Elísios</button>
             </div>
@@ -76,7 +75,7 @@
         let ambienteSalvo = 'campos-elisios';
         try {
             const salvo = localStorage.getItem('rpg-ambientacao');
-            if (['ui', 'altavento', 'campos-elisios'].includes(salvo)) ambienteSalvo = salvo;
+            if (['altavento', 'campos-elisios'].includes(salvo)) ambienteSalvo = salvo;
         } catch (_) {}
         aplicarAmbiente(ambienteSalvo);
         // Nenhuma música inicia automaticamente: a escolha fica sob controle do usuário.
